@@ -22,4 +22,23 @@ class StatTracker
     file_open.read
   end
 
+  # ************** Team Statistics **************
+
+  def team_info(team_id)
+    team_info = {}
+
+    #Find the team's row information
+    team = teams.find do |row|
+      team_id == row[0]
+    end
+
+    #Assign hash values
+    team_info["team_id"] = team[0]
+    team_info["franchise_id"] = team[1]
+    team_info["team_name"] = team[2]
+    team_info["abbreviation"] = team[3]
+    team_info["link"] = team[5]
+
+    team_info
+  end
 end
