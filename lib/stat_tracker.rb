@@ -17,9 +17,7 @@ class StatTracker
   end
 
   def self.read_from_file(file)
-    file_open = CSV.open(file)
-
-    file_open.read
+    CSV.parse(File.read(file), headers: true)
   end
 
   # ************** Team Statistics **************
