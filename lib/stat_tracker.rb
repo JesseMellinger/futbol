@@ -53,11 +53,8 @@ class StatTracker
   end
 
   def highest_scoring_visitor
-    away_games = []
-    @game_teams.each do |row|
-      if row["HoA"] == "away"
-        away_games << row
-      end
+    away_games = @game_teams.find_all do |row|
+      row["HoA"] == "away"
     end
     team_id = group_by(away_games, "team_id", "goals").max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
