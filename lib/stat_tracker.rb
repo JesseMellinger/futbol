@@ -24,7 +24,6 @@ class StatTracker
 
   def group_by(data, key, value)
     hash = {}
-    data = self.instance_variable_get(data)
     data.each do |row|
       if hash[row[key]]
         hash[row[key]] << row[value]
@@ -40,10 +39,17 @@ class StatTracker
   end
 
   def best_offense
-    team_id = group_by(:@game_teams, "team_id", "goals").max_by do |team_id, goals_in_game|
+    team_id = group_by(@game_teams, "team_id", "goals").max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum / (goals_in_game.length)
     end.first
     @teams.find {|row| row["team_id"] == team_id}["teamName"]
   end
+
+  def worst_offense
+  team_id = group_by(@game_teams, "team_id", "goals").min_by do |team_id, goals_in_game|
+    goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
+  end.first
+  @teams.find {|row| row["team_id"] == team_id}["teamName"]
+end
 
 end
