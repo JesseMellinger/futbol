@@ -59,7 +59,7 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_get_worst_offense
-  assert_equal "Sporting Kansas City", @stat_tracker.worst_offense
+    assert_equal "Sporting Kansas City", @stat_tracker.worst_offense
   end
 
 end
