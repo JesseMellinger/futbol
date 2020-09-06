@@ -57,7 +57,8 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_percentage_home_wins
-    #Percentage of games that a home team has won (rounded to the nearest 100th)
+    #Percentage of games that a home team has won
+    #(rounded to the nearest 100th)
     # float
     assert_equal
   end
