@@ -46,4 +46,12 @@ class StatTracker
     @teams.find {|row| row["team_id"] == team_id}["teamName"]
   end
 
+
+  # **************GameStatistics***********************
+
+  def highest_total_score
+
+  end
+
+
 end
