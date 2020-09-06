@@ -53,15 +53,15 @@ class StatTracker
 
     #Find the team's row information
     team = teams.find do |row|
-      team_id == row[0]
+      team_id == row["team_id"]
     end
 
     #Assign hash values
-    team_info["team_id"] = team[0]
-    team_info["franchise_id"] = team[1]
-    team_info["team_name"] = team[2]
-    team_info["abbreviation"] = team[3]
-    team_info["link"] = team[5]
+    team_info["team_id"] = team["team_id"]
+    team_info["franchise_id"] = team["franchiseId"]
+    team_info["team_name"] = team["teamName"]
+    team_info["abbreviation"] = team["abbreviation"]
+    team_info["link"] = team["link"]
 
     team_info
   end
