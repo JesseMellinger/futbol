@@ -39,6 +39,17 @@ class StatTrackerTest < Minitest::Test
 
   # ************* LeagueStatistics Tests *************
 
+  def test_group_by_column_data
+    expected = {"3"=>["2", "2", "1", "2", "1"],
+                "6"=>["3", "3", "2", "3", "3", "3", "4", "2", "1"],
+                "5"=>["0", "1", "1", "0"],
+                "17"=>["1"]}
+
+    data = @stat_tracker.instance_variable_get(:@game_teams)
+
+    assert_equal expected, @stat_tracker.group_by(data, "team_id", "goals")
+  end
+
   def test_get_number_of_teams
     assert_equal 6, @stat_tracker.count_of_teams
   end
