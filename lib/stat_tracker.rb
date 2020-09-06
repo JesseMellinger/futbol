@@ -46,10 +46,10 @@ class StatTracker
   end
 
   def worst_offense
-  team_id = group_by(@game_teams, "team_id", "goals").min_by do |team_id, goals_in_game|
-    goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-  end.first
+    team_id = group_by(@game_teams, "team_id", "goals").min_by do |team_id, goals_in_game|
+      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
+    end.first
   @teams.find {|row| row["team_id"] == team_id}["teamName"]
-end
+  end
 
 end
