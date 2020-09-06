@@ -50,8 +50,25 @@ class StatTracker
   # **************GameStatistics***********************
 
   def highest_total_score
-
+    game_score = []
+    @games.each do |row|
+      game_score << row[6].to_i + row[7].to_i
+    end
+    game_score.sort!
+    game_score[-1]
   end
+
+  def lowest_total_score
+    game_score = []
+    @games.map do |row|
+      game_score << row[6].to_i + row[7].to_i
+    end
+    game_score.sort!
+    game_score[0]
+  end
+
+  
+
 
 
 end
