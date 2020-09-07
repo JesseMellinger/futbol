@@ -102,4 +102,11 @@ class StatTracker
       end
     end
   end
+
+  def average_goals_per_game
+    count = @games.map do |row|
+      row["away_goals"].to_i + row["home_goals"].to_i
+    end
+    count.sum.to_f/ @games["away_goals"].length.round(2)
+  end
 end
