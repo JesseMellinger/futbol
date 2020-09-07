@@ -97,4 +97,36 @@ class StatTracker
 
     best_season.first
   end
+
+  def worst_season(team_id)
+    #Find all games for that team
+    team_games = game_teams.find_all do |game|
+      game["team_id"] == team_id
+    end
+
+    #Group those games by season
+    by_season = team_games.group_by do |game|
+      game_info = games.find do |row|
+        game["game_id"] == row["game_id"]
+      end
+      game_info["season"]
+    end
+
+    #Calculate win percentage of those seasons
+    win_percentage_by_season = {}
+    by_season.each do |season, games|
+      wins = games.count do |game|
+        game["result"] == "WIN"
+      end
+      win_percentage = (wins / games.count.to_f).round(2)
+      win_percentage_by_season[season] = win_percentage
+    end
+
+    #Min_by win percentage of seasons
+    worst_season = win_percentage_by_season.min_by do |season, win_percentage|
+      win_percentage
+    end
+
+    worst_season.first
+  end
 end
