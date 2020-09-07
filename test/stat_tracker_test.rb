@@ -40,11 +40,11 @@ class StatTrackerTest < Minitest::Test
   # ************* LeagueStatistics Tests *************
 
   def test_get_number_of_teams
-<<<<<<< HEAD
+
     assert_equal 6, @stat_tracker.count_of_teams
-=======
+
     assert_equal 32, @stat_tracker.count_of_teams
->>>>>>> c282038a432fff554e3e192225d787bdb1373b38
+
   end
 
   def test_get_best_offense
