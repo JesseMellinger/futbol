@@ -128,7 +128,7 @@ class StatTracker
     hash.each do |season1, goals|
       hash2.each do |season2, games|
         if season2.include?(season1)
-          hash3[season2] = goals/ games
+          hash3[season2] = goals/ games.to_f.round(2)
         end
       end
     end

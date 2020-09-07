@@ -87,7 +87,7 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_average_goals_by_season
-    expected = {"20122013" => 5, "20132014" => 5, "20142015" => 1}
+    expected = {"20122013" => 5.00, "20132014" => 5.00, "20142015" => 1.00}
     assert_equal expected, @stat_tracker.average_goals_by_season
   end
 
