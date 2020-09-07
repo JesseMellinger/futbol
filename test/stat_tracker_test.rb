@@ -83,7 +83,7 @@ class StatTrackerTest < Minitest::Test
 
   def test_name_of_coach_with_highest_win_percentage
 
-    assert_equal "Claude Julien", @stat_tracker.name_of_coach_with_highest_win_percentage
+    assert_equal "Claude Julien", @stat_tracker.winningest_coach
   end
 
   def test_worst_coach_if_someone_doesnt_have_any_wins_helper
@@ -129,7 +129,7 @@ class StatTrackerTest < Minitest::Test
 
   def test_name_of_team_with_best_shots_to_goal
 
-    assert_equal "FC Dallas", @stat_tracker.name_of_most_accurate_team
+    assert_equal "FC Dallas", @stat_tracker.most_accurate_team
   end
 
   def test_lowest_win_percentage_by_team_id_helper
@@ -139,7 +139,7 @@ class StatTrackerTest < Minitest::Test
 
   def test_name_of_least_accurate_team
 
-    assert_equal "Sporting Kansas City", @stat_tracker.name_of_least_accurate_team
+    assert_equal "Sporting Kansas City", @stat_tracker.least_accurate_team
   end
 
   def test_total_number_tackles_by_team_helper
@@ -156,7 +156,7 @@ class StatTrackerTest < Minitest::Test
 
   def test_name_of_team_most_tackles
 
-    assert_equal "FC Dallas", @stat_tracker.name_of_team_most_tackles
+    assert_equal "FC Dallas", @stat_tracker.most_tackles
   end
 
   def test_team_id_with_fewest_tackles_helper
@@ -166,6 +166,6 @@ class StatTrackerTest < Minitest::Test
 
   def test_name_of_team_fewest_tackles
 
-    assert_equal "LA Galaxy", @stat_tracker.name_of_team_fewest_tackles
+    assert_equal "LA Galaxy", @stat_tracker.fewest_tackles
   end
 end
