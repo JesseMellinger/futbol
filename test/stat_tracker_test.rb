@@ -80,11 +80,16 @@ class StatTrackerTest < Minitest::Test
   def test_average_goals_per_game
     assert_equal 4.20, @stat_tracker.average_goals_per_game
   end
-  #
-  # def test_average_goals_by_season
-  #   Average number of goals scored in a game organized in a hash with season names (e.g. 20122013) as keys and a float representing the average number of goals in a game for that season as values (rounded to the nearest 100th)
-  #   assert_equal
-  # end
-  #
+
+  def total_goals_by_season
+    expected = {"20122013" => 10, "20132014" => 10, "20142015" => 1}
+    assert_equal expected, @stat_tracker.total_goals_by_season
+  end
+
+  def test_average_goals_by_season
+    expected = {"20122013" => 5, "20132014" => 5, "20142015" => 1}
+    assert_equal expected, @stat_tracker.average_goals_by_season
+  end
+
 
 end

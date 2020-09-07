@@ -97,7 +97,7 @@ class StatTracker
     hash.each do |season, games|
       @games.each do |row|
         if row["season"].include?(season)
-          hash[season] +=1
+          hash[season] += 1
         end
       end
     end
@@ -108,5 +108,30 @@ class StatTracker
       row["away_goals"].to_i + row["home_goals"].to_i
     end
     count.sum.to_f/ @games["away_goals"].length.round(2)
+  end
+
+  def total_goals_by_season
+    hash = Hash[self.season_keys.collect {|item| [item, 0]}]
+    hash.each do |season, games|
+      @games.each do |row|
+        if row["season"].include?(season)
+          hash[season] += row["away_goals"].to_i + row["home_goals"].to_i
+        end
+      end
+    end
+  end
+
+  def average_goals_by_season
+    hash = total_goals_by_season
+    hash2 = count_of_games_by_season
+    hash3 = Hash.new(0)
+    hash.each do |season1, goals|
+      hash2.each do |season2, games|
+        if season2.include?(season1)
+          hash3[season2] = goals/ games
+        end
+      end
+    end
+    hash3
   end
 end
