@@ -158,4 +158,14 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal "FC Dallas", @stat_tracker.name_of_team_most_tackles
   end
+
+  def test_team_id_with_fewest_tackles_helper
+
+    assert_equal ["17"], @stat_tracker.team_id_with_fewest_tackles_helper
+  end
+
+  def test_name_of_team_fewest_tackles
+
+    assert_equal "LA Galaxy", @stat_tracker.name_of_team_fewest_tackles
+  end
 end

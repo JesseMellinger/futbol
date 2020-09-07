@@ -182,7 +182,7 @@ end
     team_id_variable
   end
 
-  def name_of_least_accurate_team
+  def least_accurate_team
     team_name = @teams.find do |row|
       row[0] == lowest_win_percentage_by_team_id_helper[0]
     end
@@ -220,4 +220,23 @@ end
     end
     team_name[2]
   end
-end
+
+  def team_id_with_fewest_tackles_helper
+
+    team_id_with_total_tackles = total_number_tackles_by_team_id_helper.find_all do |key, value|
+      value == total_number_tackles_by_team_id_helper.values.min
+    end
+    team_id_variable = []
+  team_id_with_total_tackles.each do |id_and_ratio|
+  team_id_variable << id_and_ratio[0]
+    end
+    team_id_variable
+  end
+
+  def fewest_tackles
+    team_name = @teams.find do |row|
+      row[0] == team_id_with_fewest_tackles_helper[0]
+    end
+    team_name[2]
+    end
+  end
