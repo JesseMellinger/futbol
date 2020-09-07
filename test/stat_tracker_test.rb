@@ -57,26 +57,23 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_percentage_home_wins
-    #Percentage of games that a home team has won
-    #(rounded to the nearest 100th)
-    # float
-    assert_equal 0.50, @stat_tracker.percentage_home_wins
+    assert_equal 0.40, @stat_tracker.percentage_home_wins
   end
 
   def test_percentage_visitor_wins
-    assert_equal 0.50, @stat_tracker.percentage_visitor_wins 
+    assert_equal 0.40, @stat_tracker.percentage_visitor_wins
   end
   #
-  # def test_percentage_ties
-  #   assert_equal
-  #   # Percentage of games that has resulted in a tie (rounded to the nearest 100th)
-  #   # float
-  # end
+  def test_percentage_ties
+    assert_equal 0.20, @stat_tracker.percentage_ties
+  end
   #
-  # def test_count_of_games_by_season
+  def test_count_of_games_by_season
   #   # A hash with season names (e.g. 20122013) as keys and counts of games as values
   #   assert_equal
-  # end
+    expected = {20122013 => 2, 20132014 => 2, 20142015 => 1}
+    assert_equal expected, @stat_tracker.count_of_games_by_season
+  end
   #
   # def test_average_goals_per_game
   #   # Average number of goals scored in a game across all seasons including both home and away goals (rounded to the nearest 100th)

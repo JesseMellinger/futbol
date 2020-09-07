@@ -81,6 +81,13 @@ class StatTracker
     count.to_f / @games.count.round(2)
   end
 
+  def percentage_ties
+    count = @games.count do |row|
+      row["away_goals"] == row["home_goals"]
+    end
+    count.to_f / @games.count.round(2)
+  end
+
 
 
 end
