@@ -163,7 +163,7 @@ end
     team_id_variable
   end
 
-  def name_of_most_accurate_team
+  def most_accurate_team
     team_name = @teams.find do |row|
       row[0] == highest_win_percentage_by_team_id_helper[0]
     end
