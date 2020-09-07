@@ -233,7 +233,7 @@ end
     team_id_variable
   end
 
-  def name_of_team_fewest_tackles
+  def fewest_tackles
     team_name = @teams.find do |row|
       row[0] == team_id_with_fewest_tackles_helper[0]
     end
