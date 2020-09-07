@@ -63,7 +63,7 @@ class StatTrackerTest < Minitest::Test
   def test_percentage_visitor_wins
     assert_equal 0.40, @stat_tracker.percentage_visitor_wins
   end
-  #
+
   def test_percentage_ties
     assert_equal 0.20, @stat_tracker.percentage_ties
   end
@@ -71,14 +71,19 @@ class StatTrackerTest < Minitest::Test
   def test_season_keys
     assert_equal ["20122013", "20132014", "20142015"], @stat_tracker.season_keys
   end
-  #
-  # def test_count_of_games_by_season
-  # #   # A hash with season names (e.g. 20122013) as keys and counts of games as values
-  # #   assert_equal
-  #   expected = {20122013 => 2, 20132014 => 2, 20142015 => 1}
-  #   assert_equal expected, @stat_tracker.count_of_games_by_season
-  # end
-  #
+
+  def test_games_hash
+    expected = {"20122013"=>0, "20132014"=>0, "20142015"=>0}
+    assert_equal expected, @stat_tracker.games_hash
+  end
+
+  def test_count_of_games_by_season
+  #   # A hash with season names (e.g. 20122013) as keys and counts of games as values
+  #   assert_equal
+    expected = {"20122013" => 2, "20132014" => 2, "20142015" => 1}
+    assert_equal expected, @stat_tracker.count_of_games_by_season
+  end
+
   # def test_average_goals_per_game
   #   # Average number of goals scored in a game across all seasons including both home and away goals (rounded to the nearest 100th)
   #   assert_equal
