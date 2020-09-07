@@ -92,16 +92,14 @@ class StatTracker
     @games["season"].uniq
   end
 
-  def games_hash
-      Hash[self.season_keys.collect {|item| [item, 0]}]
+  def count_of_games_by_season
+    hash = Hash[self.season_keys.collect {|item| [item, 0]}]
+    hash.each do |season, games|
+      @games.each do |row|
+        if row["season"].include?(season)
+          hash[season] +=1
+        end
+      end
+    end
   end
-
-  # def count_of_games_by_season
-  #   @games["season"]
-  #
-  # end
-
-
-
-
 end
