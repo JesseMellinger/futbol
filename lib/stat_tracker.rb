@@ -82,7 +82,7 @@ class StatTracker
     coaches_winning_percentage_hash
   end
 
-  def name_of_coach_with_highest_win_percentage
+  def winningest_coach
     name_of_coach_with_number_variable = coaches_winning_percentage_hash_helper.find_all do |key, value|
   
   end
