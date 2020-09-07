@@ -214,7 +214,7 @@ end
     team_id_variable
   end
 
-  def name_of_team_most_tackles
+  def most_tackles
     team_name = @teams.find do |row|
       row[0] == team_id_with_most_tackles_helper[0]
     end
