@@ -4,9 +4,9 @@ require './lib/stat_tracker'
 class StatTrackerTest < Minitest::Test
 
   def setup
-    @game_path = './data/dummy_game_path.csv'
-    @team_path = './data/dummy_team_path.csv'
-    @game_teams_path = './data/dummy_game_teams_path.csv'
+    @game_path = './data/games.csv'
+    @team_path = './data/teams.csv'
+    @game_teams_path = './data/game_teams.csv'
 
 
     @locations = {
@@ -40,11 +40,15 @@ class StatTrackerTest < Minitest::Test
   # ************* LeagueStatistics Tests *************
 
   def test_get_number_of_teams
+<<<<<<< HEAD
     assert_equal 6, @stat_tracker.count_of_teams
+=======
+    assert_equal 32, @stat_tracker.count_of_teams
+>>>>>>> c282038a432fff554e3e192225d787bdb1373b38
   end
 
   def test_get_best_offense
-    assert_equal "FC Dallas", @stat_tracker.best_offense
+    assert_equal "Reign FC", @stat_tracker.best_offense
   end
 
   # ************* SeasonStatistics Tests *************
