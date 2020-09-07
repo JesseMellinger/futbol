@@ -42,14 +42,14 @@ class StatTracker
     team_id = group_by(@game_teams, "team_id", "goals").max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @teams.find {|row| row["team_id"] == team_id}["teamName"]
+    team_info(team_id)["team_name"]
   end
 
   def worst_offense
     team_id = group_by(@game_teams, "team_id", "goals").min_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @teams.find {|row| row["team_id"] == team_id}["teamName"]
+    team_info(team_id)["team_name"]
   end
 
   def highest_scoring_visitor
@@ -91,5 +91,23 @@ class StatTracker
     end.first
     @teams.find {|row| row["team_id"] == team_id}["teamName"]
   end
+
+  def team_info(team_id)
+  team_info = {}
+
+  #Find the team's row information
+  team = teams.find do |row|
+    team_id == row["team_id"]
+  end
+
+  #Assign hash values
+  team_info["team_id"] = team["team_id"]
+  team_info["franchise_id"] = team["franchiseId"]
+  team_info["team_name"] = team["teamName"]
+  team_info["abbreviation"] = team["abbreviation"]
+  team_info["link"] = team["link"]
+
+  team_info
+end
 
 end
