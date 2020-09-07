@@ -88,6 +88,15 @@ class StatTracker
     count.to_f / @games.count.round(2)
   end
 
+  def season_keys
+    @games["season"].uniq
+  end
+
+  # def count_of_games_by_season
+  #   hash = Hash.new(0)
+  #   @games.map do |row|
+
+
 
 
 end
