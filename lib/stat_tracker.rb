@@ -84,12 +84,6 @@ class StatTracker
 
   def name_of_coach_with_highest_win_percentage
     name_of_coach_with_number_variable = coaches_winning_percentage_hash_helper.find_all do |key, value|
-      value == coaches_winning_percentage_hash_helper.values.max
-    end
-    name_of_coach_array_variable = []
-  name_of_coach_with_number_variable.each do |name_and_number|
-  name_of_coach_array_variable << name_and_number[0]
-    end
-    name_of_coach_array_variable
+  
   end
 end
