@@ -182,7 +182,7 @@ end
     team_id_variable
   end
 
-  def name_of_least_accurate_team
+  def least_accurate_team
     team_name = @teams.find do |row|
       row[0] == lowest_win_percentage_by_team_id_helper[0]
     end
