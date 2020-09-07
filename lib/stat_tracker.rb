@@ -67,7 +67,12 @@ class StatTracker
     game_score[0]
   end
 
-  
+  def percentage_home_wins
+    count = @games.count do |row|
+      row["home_goals"] > row["away_goals"]
+    end
+    count.to_f / @games.count.round(2)
+  end
 
 
 
