@@ -78,4 +78,7 @@ class StatTrackerTest < Minitest::Test
     assert_equal "20132014", tracker.best_season("6")
   end
 
+  def test_favorite_opponent
+    assert_equal "DC United", @stat_tracker.favorite_opponent("18")
+  end
 end
