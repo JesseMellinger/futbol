@@ -98,6 +98,20 @@ class StatTracker
     best_season.first
   end
 
+  def fewest_goals_scored(team_id)
+    #Find all games for that team
+    team_games = game_teams.find_all do |game|
+      game["team_id"] == team_id
+    end
+
+    #Min_by goals
+    worst_game = team_games.min_by do |game|
+      game["goals"]
+    end
+
+    worst_game["goals"].to_i
+  end
+
   def favorite_opponent(team_id)
     #Find all games for that team
     team_games = game_teams.find_all do |game|
@@ -132,7 +146,7 @@ class StatTracker
 
     team_info(fav_opponent.first)["team_name"]
   end
-  
+
   def rival(team_id)
     #Find all games for that team
     team_games = game_teams.find_all do |game|
