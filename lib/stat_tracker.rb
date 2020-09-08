@@ -110,4 +110,103 @@ class StatTracker
     end
     (wins / team_games.count.to_f).round(2)
   end
+  
+  def most_goals_scored(team_id)
+    #Find all games for that team
+    team_games = game_teams.find_all do |game|
+      game["team_id"] == team_id
+    end
+
+    #Max_by goals
+    best_game = team_games.max_by do |game|
+      game["goals"]
+    end
+
+    best_game["goals"].to_i
+  end
+
+  def fewest_goals_scored(team_id)
+    #Find all games for that team
+    team_games = game_teams.find_all do |game|
+      game["team_id"] == team_id
+    end
+
+    #Min_by goals
+    worst_game = team_games.min_by do |game|
+      game["goals"]
+    end
+
+    worst_game["goals"].to_i
+  end
+
+  def favorite_opponent(team_id)
+    #Find all games for that team
+    team_games = game_teams.find_all do |game|
+      game["team_id"] == team_id
+    end
+
+    #Find all opponent games for the team
+    opponent_games = team_games.map do |game|
+      game_teams.find do |row|
+        game["game_id"] == row["game_id"] && row["team_id"] != team_id
+      end
+    end
+
+    #Group opponent games by opponent
+    by_opponent = opponent_games.group_by do |game|
+      game["team_id"]
+    end
+
+    #Calculate win percentage of those opponents
+    win_percentage_by_opponent = {}
+    by_opponent.each do |opponent, games|
+      wins = games.count do |game|
+        game["result"] == "WIN"
+      end
+      win_percentage = (wins / games.count.to_f).round(2)
+      win_percentage_by_opponent[opponent] = win_percentage
+    end
+    #Min_by win percentage of opponents
+    fav_opponent = win_percentage_by_opponent.min_by do |opponent, win_percentage|
+      win_percentage
+    end
+
+    team_info(fav_opponent.first)["team_name"]
+  end
+
+  def rival(team_id)
+    #Find all games for that team
+    team_games = game_teams.find_all do |game|
+      game["team_id"] == team_id
+    end
+
+    #Find all opponent games for the team
+    opponent_games = team_games.map do |game|
+      game_teams.find do |row|
+        game["game_id"] == row["game_id"] && row["team_id"] != team_id
+      end
+    end
+
+    #Group opponent games by opponent
+    by_opponent = opponent_games.group_by do |game|
+      game["team_id"]
+    end
+
+    #Calculate win percentage of those opponents
+    win_percentage_by_opponent = {}
+    by_opponent.each do |opponent, games|
+      wins = games.count do |game|
+        game["result"] == "WIN"
+      end
+      win_percentage = (wins / games.count.to_f).round(2)
+      win_percentage_by_opponent[opponent] = win_percentage
+    end
+
+    #Max_by win percentage of opponents
+    least_fav = win_percentage_by_opponent.max_by do |opponent, win_percentage|
+      win_percentage
+    end
+
+    team_info(least_fav.first)["team_name"]
+  end
 end
