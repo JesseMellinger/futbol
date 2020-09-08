@@ -98,6 +98,19 @@ class StatTracker
     best_season.first
   end
 
+  def average_win_percentage(team_id)
+    #Find all games for that team
+    team_games = game_teams.find_all do |game|
+      game["team_id"] == team_id
+    end
+
+    #Calculate win percentage of all games
+    wins = team_games.count do |game|
+      game["result"] == "WIN"
+    end
+    (wins / team_games.count.to_f).round(2)
+  end
+  
   def most_goals_scored(team_id)
     #Find all games for that team
     team_games = game_teams.find_all do |game|
