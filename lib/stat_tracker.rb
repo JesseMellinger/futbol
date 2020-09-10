@@ -71,21 +71,21 @@ class StatTracker
     count = @games.count do |row|
       row["home_goals"] > row["away_goals"]
     end
-    count.to_f / @games.count.round(2)
+    (count.to_f / @games.count).round(2)
   end
 
   def percentage_visitor_wins
     count = @games.count do |row|
       row["away_goals"] > row["home_goals"]
     end
-    count.to_f / @games.count.round(2)
+    (count.to_f / @games.count).round(2)
   end
 
   def percentage_ties
     count = @games.count do |row|
       row["away_goals"] == row["home_goals"]
     end
-    count.to_f / @games.count.round(2)
+    (count.to_f / @games.count).round(2)
   end
 
   def season_keys
@@ -107,7 +107,7 @@ class StatTracker
     count = @games.map do |row|
       row["away_goals"].to_i + row["home_goals"].to_i
     end
-    count.sum.to_f/ @games["away_goals"].length.round(2)
+    (count.sum.to_f/ @games["away_goals"].length).round(2)
   end
 
   def total_goals_by_season
@@ -128,7 +128,7 @@ class StatTracker
     hash.each do |season1, goals|
       hash2.each do |season2, games|
         if season2.include?(season1)
-          hash3[season2] = goals/ games.to_f.round(2)
+          hash3[season2] = (goals/ games.to_f).round(2)
         end
       end
     end
