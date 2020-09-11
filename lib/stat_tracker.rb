@@ -41,202 +41,211 @@ class StatTracker
 
   def best_offense
     team_id = group_by(:@game_teams, "team_id", "goals").max_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum / (goals_in_game.length)
+      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
     @teams.find {|row| row["team_id"] == team_id}["teamName"]
   end
 # ************* Season Statistics *************
-  def total_games_played_by_coach_helper
-    games_coached_hash =  @game_teams["head_coach"].group_by(&:itself)
-        games_coached_hash.map{|key, value| [key, value.length]}.to_h
+
+  def winningest_coach(season_id)
+    # Find all games in season & return array of those games' ids"
+    season_games = @games.find_all do |game|
+      game["season"] == season_id
+    end.map {|game| game["game_id"]}
+
+    # Find all those games in @game_teams & return array of CSV row objects
+    season_games = @game_teams.find_all do |game|
+      season_games.include?(game["game_id"])
+    end
+
+    # Creates hash with 'head_coach' as key and value as an array with first
+    # element as integer of games won and second element integer of all other games (losses or ties)
+    season_games = season_games.group_by do |game|
+      game["head_coach"]
+    end.transform_values! {|games| games.partition {|game| game["result"] == "WIN"}.map(&:length)}
+
+    # Returns name of coach with greatest win percentage (games won divided by total of games played)
+    season_games.max_by do |coach, games|
+      games[0].to_f / games.sum
+    end.first
+  end
+
+  def worst_coach(season_id)
+    # Find all games in season & return array of those games' ids
+    season_games = @games.find_all do |game|
+      game["season"] == season_id
+    end.map {|game| game["game_id"]}
+
+    # Find all those games in @game_teams & return array of CSV row objects
+    season_games = @game_teams.find_all do |game|
+      season_games.include?(game["game_id"])
+    end
+
+    # Creates hash with 'head_coach' as key and value as an array with first
+    # element as integer of games won and second element integer of all other games (losses or ties)
+    season_games = season_games.group_by do |game|
+      game["head_coach"]
+    end.transform_values! {|games| games.partition {|game| game["result"] == "WIN"}.map(&:length)}
+
+    # Returns name of coach with greatest win percentage (games won divided by total of games played)
+    season_games.min_by do |coach, games|
+      games[0].to_f / games.sum
+    end.first
+  end
+
+  def most_accurate_team(season_id)
+    # Find all games in season & return array of those games' ids"
+  season_games = @games.find_all do |game|
+    game["season"] == season_id
+  end.map {|game| game["game_id"]}
+
+  # Find all those games in @game_teams & return array of CSV row objects
+  season_games = @game_teams.find_all do |game|
+    season_games.include?(game["game_id"])
+  end
+
+  # Creates hash with 'team_id' as key and value as total shots taken for the season
+  total_shots_by_team = {}
+    season_games.each do |game|
+    if total_shots_by_team.include?(game["team_id"])
+      total_shots_by_team[game["team_id"]] += game["shots"].to_i
+    else
+      total_shots_by_team[game["team_id"]] = game["shots"].to_i
+      end
+    end
+
+  #Creates hash with 'team_id' as key and value as total goals for the season
+  total_goals_by_team = {}
+    season_games.each do |game|
+    if total_goals_by_team.include?(game["team_id"])
+      total_goals_by_team[game["team_id"]] += game["goals"].to_i
+    else
+      total_goals_by_team[game["team_id"]] = game["goals"].to_i
+      end
+    end
+
+  #Creates hash with 'team_id' as key and values of shot-to-goal ratio
+  shots_to_goal_ratio = total_goals_by_team.merge!(total_shots_by_team) {|key, value1, value2|
+    (value1.to_f / value2.to_f).round(3)}
+
+  #returns the team_id of team with best shot-to-goal ratio
+  highest_ratio = shots_to_goal_ratio.values.max
+  team_with_highest_ratio = shots_to_goal_ratio.key(highest_ratio)
+
+  #returns team name of team with best shot-to-goal ratio
+  team_name = @teams.find do |row|
+    row["team_id"] == team_with_highest_ratio
+     end
+  team_name[2]
+  end
+
+  def least_accurate_team(season_id)
+    # Find all games in season & return array of those games' ids"
+  season_games = @games.find_all do |game|
+    game["season"] == season_id
+  end.map {|game| game["game_id"]}
+
+  # Find all those games in @game_teams & return array of CSV row objects
+  season_games = @game_teams.find_all do |game|
+    season_games.include?(game["game_id"])
+  end
+
+  # Creates hash with 'team_id' as key and value as total shots taken for the season
+  total_shots_by_team = {}
+    season_games.each do |game|
+    if total_shots_by_team.include?(game["team_id"])
+      total_shots_by_team[game["team_id"]] += game["shots"].to_i
+    else
+      total_shots_by_team[game["team_id"]] = game["shots"].to_i
+      end
+    end
+
+  #Creates hash with 'team_id' as key and value as total goals for the season
+  total_goals_by_team = {}
+    season_games.each do |game|
+    if total_goals_by_team.include?(game["team_id"])
+      total_goals_by_team[game["team_id"]] += game["goals"].to_i
+    else
+      total_goals_by_team[game["team_id"]] = game["goals"].to_i
+      end
+    end
+
+  #Creates hash with 'team_id' as key and values of shot-to-goal ratio
+  shots_to_goal_ratio = total_goals_by_team.merge!(total_shots_by_team) {|key, value1, value2|
+    (value1.to_f / value2.to_f).round(6)}
+
+  #returns the team_id of team with best shot-to-goal ratio
+  lowest_ratio = shots_to_goal_ratio.values.min
+  team_with_lowest_ratio = shots_to_goal_ratio.key(lowest_ratio)
+
+  #returns team name of team with best shot-to-goal ratio
+  team_name = @teams.find do |row|
+    row["team_id"] == team_with_lowest_ratio
+     end
+  team_name[2]
+    end
+
+  def most_tackles(season_id)
+    # Find all games in season & return array of those games' ids"
+    season_games = @games.find_all do |game|
+      game["season"] == season_id
+    end.map {|game| game["game_id"]}
+
+    # Find all those games in @game_teams & return array of CSV row objects
+    season_games = @game_teams.find_all do |game|
+    season_games.include?(game["game_id"])
+    end
+
+    #Creates hash with team_id as key and total tackles in the season as value
+    total_tackles_by_team = {}
+      season_games.each do |game|
+      if total_tackles_by_team.include?(game["team_id"])
+        total_tackles_by_team[game["team_id"]] += game["tackles"].to_i
+      else
+        total_tackles_by_team[game["team_id"]] = game["tackles"].to_i
+      end
+    end
+
+    #returns the team_id of team with the most tackles
+    most_tackles = total_tackles_by_team.values.max
+    team_with_most_tackles = total_tackles_by_team.key(most_tackles)
+
+    #returns team name of team with best shot-to-goal ratio
+    team_name = @teams.find do |row|
+      row["team_id"] == team_with_most_tackles
+       end
+    team_name[2]
+    end
+
+  def fewest_tackles(season_id)
+      # Find all games in season & return array of those games' ids"
+    season_games = @games.find_all do |game|
+      game["season"] == season_id
+    end.map {|game| game["game_id"]}
+
+      # Find all those games in @game_teams & return array of CSV row objects
+    season_games = @game_teams.find_all do |game|
+      season_games.include?(game["game_id"])
       end
 
-  def total_games_won_by_coach_array_helper
-    games_won_array = []
-    @game_teams.each do |row|
-      if row[3] == "WIN"
-        games_won_array << row[5]
+      #Creates hash with team_id as key and total tackles in the season as value
+    total_tackles_by_team = {}
+      season_games.each do |game|
+      if total_tackles_by_team.include?(game["team_id"])
+        total_tackles_by_team[game["team_id"]] += game["tackles"].to_i
+      else
+        total_tackles_by_team[game["team_id"]] = game["tackles"].to_i
       end
     end
-    games_won_array
-  end
 
-  def games_won_into_hash_helper
-  games_won_hash = total_games_won_by_coach_array_helper.group_by(&:itself)
-    games_won_hash.map{|key, value| [key, value.length]}.to_h
-  end
+      #returns the team_id of team with the most tackles
+    fewest_tackles = total_tackles_by_team.values.min
+    team_with_fewest_tackles = total_tackles_by_team.key(fewest_tackles)
 
-  def coaches_with_games_played_and_won_array_helper
-      coaches_with_games_played_array = total_games_played_by_coach_helper.keys
-      coaches_with_games_won_array = games_won_into_hash_helper.keys
-      coaches_with_games_won_and_played_array = coaches_with_games_played_array & coaches_with_games_won_array
-      coaches_with_games_won_and_played_array
-  end
-
-  def coaches_winning_percentage_hash_helper
-    coaches_winning_percentage_hash = {}
-    coaches_with_games_played_and_won_array_helper.each do |coach|
-
-      coaches_winning_percentage_hash[coach] = ((games_won_into_hash_helper[coach] / total_games_played_by_coach_helper[coach] * 100))
+      #returns team name of team with best shot-to-goal ratio
+    team_name = @teams.find do |row|
+      row["team_id"] == team_with_fewest_tackles
     end
-    coaches_winning_percentage_hash
-  end
-
-  def winningest_coach
-    name_of_coach_with_number_variable = coaches_winning_percentage_hash_helper.find_all do |key, value|
-      value == coaches_winning_percentage_hash_helper.values.max
-    end
-    name_of_coach_array_variable = []
-  name_of_coach_with_number_variable.each do |name_and_number|
-  name_of_coach_array_variable << name_and_number[0]
-    end
-    name_of_coach_array_variable.join(", ")
-  end
-
-  def worst_coach_if_someone_doesnt_have_any_wins_helper
-    worst_coach_array = []
-    total_games_played_by_coach_helper.keys.each do |coach|
-      if !games_won_into_hash_helper.keys.include?(coach)
-        worst_coach_array << coach
-      end
-    end
-    worst_coach_array
-  end
-
-  def worst_coach_if_everyone_has_a_win_helper
-
-    name_of_coach_with_number_variable =
-      coaches_winning_percentage_hash_helper.find_all do |key, value| value == coaches_winning_percentage_hash_helper.values.min
-    end
-    name_of_coach_array_variables = []
-    name_of_coach_with_number_variable.each do |name_and_number|
-    name_of_coach_array_variables << name_and_number[0]
-    end
-  name_of_coach_array_variables
- end
-
- def worst_coach
-
-  if worst_coach_if_someone_doesnt_have_any_wins_helper.length == 0
-     worst_coach_if_everyone_has_a_win_helper.join(", ")
-  else
-     worst_coach_if_someone_doesnt_have_any_wins_helper.join(", ")
+    team_name[2]
   end
 end
-
-  def total_goals_by_team_id_hash_helper
-    total_goals_by_team_hash = {}
-    @game_teams.each do |row|
-      if total_goals_by_team_hash.include?(row[1])
-        total_goals_by_team_hash[row[1]] += row[6].to_i
-      else
-        total_goals_by_team_hash[row[1]] = row[6].to_i
-      end
-    end
- total_goals_by_team_hash
-  end
-
-  def total_shots_by_team_id_hash_helper
-    total_shots_by_team_hash = {}
-    @game_teams.each do |row|
-      if total_shots_by_team_hash.include?(row[1])
-        total_shots_by_team_hash[row[1]] += row[7].to_i
-      else
-        total_shots_by_team_hash[row[1]] = row[7].to_i
-      end
-    end
- total_shots_by_team_hash
-  end
-
-  def ratio_of_shots_to_goals_by_team_id_helper
-    total_goals_by_team_id_hash_helper.merge!(total_shots_by_team_id_hash_helper) {|key, value1, value2| (value1.to_f / value2.to_f).round(2)}
-  end
-
-  def highest_win_percentage_by_team_id_helper
-    team_id_with_ratio_of_shot = ratio_of_shots_to_goals_by_team_id_helper.find_all do |key, value|
-      value == ratio_of_shots_to_goals_by_team_id_helper.values.max
-    end
-    team_id_variable = []
-  team_id_with_ratio_of_shot.each do |id_and_ratio|
-  team_id_variable << id_and_ratio[0]
-    end
-    team_id_variable
-  end
-
-  def most_accurate_team
-    team_name = @teams.find do |row|
-      row[0] == highest_win_percentage_by_team_id_helper[0]
-    end
-    team_name[2]
-  end
-
-  def lowest_win_percentage_by_team_id_helper
-
-    team_id_with_ratio_of_shot = ratio_of_shots_to_goals_by_team_id_helper.find_all do |key, value|
-      value == ratio_of_shots_to_goals_by_team_id_helper.values.min
-    end
-    team_id_variable = []
-  team_id_with_ratio_of_shot.each do |id_and_ratio|
-  team_id_variable << id_and_ratio[0]
-    end
-    team_id_variable
-  end
-
-  def least_accurate_team
-    team_name = @teams.find do |row|
-      row[0] == lowest_win_percentage_by_team_id_helper[0]
-    end
-    team_name[2]
-  end
-
-  def total_number_tackles_by_team_id_helper
-
-      total_tackles_by_team_hash = {}
-      @game_teams.each do |row|
-        if total_tackles_by_team_hash.include?(row[1])
-          total_tackles_by_team_hash[row[1]] += row[8].to_i
-        else
-          total_tackles_by_team_hash[row[1]] = row[8].to_i
-        end
-      end
-   total_tackles_by_team_hash
-  end
-
-  def team_id_with_most_tackles_helper
-
-    team_id_with_total_tackles = total_number_tackles_by_team_id_helper.find_all do |key, value|
-      value == total_number_tackles_by_team_id_helper.values.max
-    end
-    team_id_variable = []
-  team_id_with_total_tackles.each do |id_and_ratio|
-  team_id_variable << id_and_ratio[0]
-    end
-    team_id_variable
-  end
-
-  def most_tackles
-    team_name = @teams.find do |row|
-      row[0] == team_id_with_most_tackles_helper[0]
-    end
-    team_name[2]
-  end
-
-  def team_id_with_fewest_tackles_helper
-
-    team_id_with_total_tackles = total_number_tackles_by_team_id_helper.find_all do |key, value|
-      value == total_number_tackles_by_team_id_helper.values.min
-    end
-    team_id_variable = []
-  team_id_with_total_tackles.each do |id_and_ratio|
-  team_id_variable << id_and_ratio[0]
-    end
-    team_id_variable
-  end
-
-  def fewest_tackles
-    team_name = @teams.find do |row|
-      row[0] == team_id_with_fewest_tackles_helper[0]
-    end
-    team_name[2]
-    end
-  end
