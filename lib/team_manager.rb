@@ -1,3 +1,6 @@
+require 'csv'
+require './lib/team'
+
 class TeamManager
 
   def initialize(data, tracker)
@@ -7,8 +10,7 @@ class TeamManager
   end
 
   def create_teams(data)
-    team_data = CSV.load(data)
-    @teams = team_data.map do |data|
+    @teams = data.map do |data|
       Team.new(data, self)
     end
   end

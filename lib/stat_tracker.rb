@@ -14,13 +14,13 @@ class StatTracker
   end
 
   def load_manager(locations)
-    # @team_manager = TeamManager.new(load_csv(locations[:teams]))
-    @game_manager = GameManager.new(load_csv(locations[:games]))
-    @game_team_manager = GameTeamManager.new(load_csv[:game_teams])
+    @team_manager = TeamManager.new(load_csv(locations[:teams]), self)
+    @game_manager = GameManager.new(load_csv(locations[:games]), self)
+    @game_team_manager = GameTeamManager.new(load_csv(locations[:game_teams]), self)
   end
 
   def load_csv(path)
-    CSV.open(path, headers: true, header_converters: :symbol)
+    CSV.parse(File.read(path), headers: true, header_converters: :symbol)
   end
 
 # ************* GameStatistics *************

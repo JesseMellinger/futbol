@@ -1,3 +1,6 @@
+require 'csv'
+require './lib/game'
+
 class GameManager
 
   def initialize(data, tracker)
@@ -7,8 +10,7 @@ class GameManager
   end
 
   def create_games(data)
-    game_data = CSV.load(data)
-    @games = game_data.map do |data|
+    @games = data.map do |data|
       Game.new(data, self)
     end
   end
