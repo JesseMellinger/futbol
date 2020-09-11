@@ -1,7 +1,7 @@
 require 'csv'
 require './lib/team_manager'
 require './lib/game_manager'
-require './lib/game_team_manager'
+require './lib/game_teams_manager'
 
 class StatTracker
 
@@ -14,9 +14,9 @@ class StatTracker
   end
 
   def load_manager(locations)
-    @team_manager = TeamManager.new(load_csv(locations[:teams]))
+    # @team_manager = TeamManager.new(load_csv(locations[:teams]))
     @game_manager = GameManager.new(load_csv(locations[:games]))
-    @game_team_manager = GameTeamManager.new(load_csv[:game_teams])
+    # @game_team_manager = GameTeamManager.new(load_csv[:game_teams])
   end
 
   def load_csv(path)
