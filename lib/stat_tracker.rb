@@ -4,7 +4,7 @@ require './lib/game_manager'
 require './lib/game_teams_manager'
 
 class StatTracker
-  
+
   def self.from_csv(locations)
     StatTracker.new(locations)
   end
@@ -85,8 +85,8 @@ class StatTracker
 
   # ************* SeasonStatistics *************
 
-  def winningest_coach
-
+  def winningest_coach(season_id)
+    
   end
 
   def worst_coach
