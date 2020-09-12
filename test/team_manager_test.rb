@@ -1,0 +1,34 @@
+require './test/test_helper'
+require './lib/team_manager'
+require './lib/stat_tracker'
+
+class TeamManagerTest < Minitest::Test
+
+  def setup
+    @game_path = './data/games.csv'
+    @team_path = './data/teams.csv'
+    @game_teams_path = './data/game_teams.csv'
+
+
+    @locations = {
+      games: @game_path,
+      teams: @team_path,
+      game_teams: @game_teams_path
+    }
+
+    @stat_tracker = StatTracker.from_csv(@locations)
+    @data = @stat_tracker.load_csv(@locations[:teams])
+    @team_manager = TeamManager.new(@data, @stat_tracker)
+
+  end
+
+  def test_it_exists
+    assert_instance_of TeamManager, @team_manager
+  end
+
+  def test_it_has_attributes
+    assert_equal 32, @team_manager.teams.length
+    assert_equal @stat_tracker, @team_manager.tracker
+  end
+
+end
