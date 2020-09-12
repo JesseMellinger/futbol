@@ -4,6 +4,7 @@ require './lib/game_manager'
 require './lib/game_teams_manager'
 
 class StatTracker
+  attr_reader :team_manager
 
   def self.from_csv(locations)
     StatTracker.new(locations)

@@ -47,7 +47,6 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_get_best_offense
-    skip
     assert_equal "Reign FC", @stat_tracker.best_offense
   end
 
