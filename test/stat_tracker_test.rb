@@ -23,16 +23,19 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_read_from_games_file
+    skip
     assert_equal "Postseason", @stat_tracker.games[0]["type"]
     assert_equal "Toyota Stadium", @stat_tracker.games[1]["venue"]
   end
 
   def test_read_from_teams_file
+    skip
     assert_equal "Atlanta United", @stat_tracker.teams[0]["teamName"]
     assert_equal "SeatGeek Stadium", @stat_tracker.teams[1]["Stadium"]
   end
 
   def test_read_from_game_teams_file
+    skip
     assert_equal "8", @stat_tracker.game_teams[0]["shots"]
     assert_equal "55.2", @stat_tracker.game_teams[1]["faceOffWinPercentage"]
   end
@@ -44,6 +47,7 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_get_best_offense
+    skip
     assert_equal "Reign FC", @stat_tracker.best_offense
   end
 
