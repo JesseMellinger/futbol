@@ -2,7 +2,7 @@ require 'csv'
 require './lib/game'
 
 class GameManager
-  attr_reader :games
+  attr_reader :games, :tracker
 
   def initialize(data, tracker)
     @games = []
