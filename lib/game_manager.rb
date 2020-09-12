@@ -16,4 +16,14 @@ class GameManager
     end
   end
 
+  def winningest_coach(season_id)
+    @tracker.game_team_manager.winningest_coach(find_game_ids_of_season(season_id))
+  end
+
+  def find_game_ids_of_season(season_id)
+    @games.find_all do |game|
+      game.season == season_id
+    end.map {|game| game.game_id}
+  end
+
 end
