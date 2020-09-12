@@ -26,6 +26,9 @@ class TeamManagerTest < Minitest::Test
     assert_instance_of TeamManager, @team_manager
   end
 
-
+  def test_it_has_attributes
+    assert_equal 32, @team_manager.teams.length
+    assert_equal @stat_tracker, @team_manager.tracker
+  end
 
 end
