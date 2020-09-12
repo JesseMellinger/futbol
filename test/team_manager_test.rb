@@ -26,5 +26,4 @@ class TeamManagerTest < Minitest::Test
     assert_instance_of TeamManager, @team_manager
   end
 
-
 end
