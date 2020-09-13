@@ -47,7 +47,7 @@ class StatTrackerTest < Minitest::Test
     assert_equal "Reign FC", @stat_tracker.best_offense
   end
 
-  # ************* LeagueStatistics Tests *************
+  # ************* Team Statistics Tests *************
 
   def test_it_has_team_info
     expected = {
