@@ -16,10 +16,10 @@ class TeamManager
     end
   end
 
-<<<<<<< HEAD
   def count_of_teams
     @teams.count
-=======
+  end
+
   def find_team(team_id)
     teams.find do |team|
       team.team_id == team_id
@@ -28,7 +28,6 @@ class TeamManager
 
   def team_info(team_id)
     find_team(team_id).team_info
->>>>>>> be9913e91895bda4538bb526bc83a0eeeaeb00b2
   end
 
 end
