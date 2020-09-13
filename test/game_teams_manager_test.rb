@@ -31,6 +31,10 @@ class GameTeamManagerTest < Minitest::Test
     assert_equal @stat_tracker, @game_team_manager.tracker
   end
 
+  def test_get_best_offense
+    assert_equal "Reign FC", @game_team_manager.best_offense
+  end
+
   def test_get_all_home_or_away_games
     assert @game_team_manager.find_all_home_or_away_games("away").all? do |game_team|
       game_team.hoa == "away"
