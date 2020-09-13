@@ -25,4 +25,11 @@ class GameTeamManager
     @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
   end
 
+  def worst_offense
+    team_id = group_by(@game_teams, :team_id, :goals).min_by do |team_id, goals_in_game|
+      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
+    end.first
+    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+  end
+
 end
