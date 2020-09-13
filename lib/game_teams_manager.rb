@@ -52,7 +52,6 @@ class GameTeamManager
     end
   end
 
-<<<<<<< HEAD
   def winningest_coach(game_ids)
     season_games = find_season_by_game_ids(game_ids)
     coach_results = group_season_games_by_coach_results(season_games)
@@ -89,13 +88,11 @@ class GameTeamManager
       games[0].to_f / games.sum
     end.first
   end
-=======
+
   def win_percentage(game_teams)
     wins = game_teams.count do |game|
       game.result == "WIN"
     end
     (wins / game_teams.count.to_f).round(2)
   end
-
->>>>>>> 13104dee18616514decd3d05347e6745bbb79e85
 end
