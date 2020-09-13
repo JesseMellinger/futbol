@@ -104,4 +104,12 @@ class TeamTest < Minitest::Test
     assert_equal 0.67, @team.win_percentage(games)
   end
 
+  def test_it_has_team_games
+    assert_equal 463, @team.team_games.count
+  end
+
+  def test_it_has_games
+    assert_equal 463, @team.games.count
+  end
+
 end
