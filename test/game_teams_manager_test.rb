@@ -52,8 +52,6 @@ class GameTeamManagerTest < Minitest::Test
     end
   end
 
-<<<<<<< HEAD
-=======
   def test_get_all_game_by_team
     assert @game_team_manager.find_games_by_team("1").all? do |game_team|
       game_team.team_id == "1"
@@ -72,5 +70,4 @@ class GameTeamManagerTest < Minitest::Test
     assert_equal 0.67, @game_team_manager.win_percentage(games)
   end
 
->>>>>>> 13104dee18616514decd3d05347e6745bbb79e85
 end
