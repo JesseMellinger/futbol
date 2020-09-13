@@ -62,7 +62,6 @@ class GameTeamManager
     season_games = find_season_by_game_ids(game_ids)
     coach_results = group_season_games_by_coach_results(season_games)
     coach_with_worst_win_percentage(coach_results)
-
   end
 
   def find_season_by_game_ids(game_ids)

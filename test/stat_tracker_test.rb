@@ -86,8 +86,8 @@ class StatTrackerTest < Minitest::Test
   # ************* Season Statistics *************
 
   def test_winningest_coach
-    assert_equal "Claude Julien", @stat_tracker.winningest_coach("20132014")
-    assert_equal "Alain Vigneault", @stat_tracker.winningest_coach("20142015")
+    assert_equal "Claude Julien", @stat_tracker.winningest_coach(game_ids)
+    assert_equal "Alain Vigneault", @stat_tracker.winningest_coach(game_ids)
   end
 
   def test_worst_coach

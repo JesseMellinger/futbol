@@ -1,6 +1,7 @@
 require './test/test_helper'
 require './lib/game_teams_manager'
 require './lib/stat_tracker'
+require './lib/game_manager'
 
 class GameTeamManagerTest < Minitest::Test
 
@@ -18,7 +19,9 @@ class GameTeamManagerTest < Minitest::Test
 
     @stat_tracker = StatTracker.from_csv(@locations)
     @data = @stat_tracker.load_csv(@locations[:game_teams])
+    @game_data = @stat_tracker.load_csv(@locations[:games])
     @game_team_manager = GameTeamManager.new(@data, @stat_tracker)
+    @game_manager = GameManager.new(@game_data, @stat_tracker)
 
   end
 
@@ -70,4 +73,51 @@ class GameTeamManagerTest < Minitest::Test
     assert_equal 0.67, @game_team_manager.win_percentage(games)
   end
 
+  def test_winningest_coach
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
+    @game_team_manager.coach_with_greatest_win_percentage(coach_results)
+
+    assert_equal "Alain Vigneault", @game_team_manager.winningest_coach(game_id_array)
+  end
+
+  def test_worst_coach
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
+    @game_team_manager.coach_with_worst_win_percentage(coach_results)
+
+    assert_equal "Ted Nolan", @game_team_manager.worst_coach(game_id_array)
+  end
+
+  def test_find_season_by_game_ids
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+
+    assert_equal 2638, @game_team_manager.find_season_by_game_ids(game_id_array).length
+  end
+
+  def test_group_season_games_by_coach_results
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+
+    assert_equal 35, @game_team_manager.group_season_games_by_coach_results(season_games).length
+  end
+
+  def test_coach_with_greatest_win_percentage
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
+
+    assert_equal "Alain Vigneault", @game_team_manager.coach_with_greatest_win_percentage(coach_results)
+  end
+
+  def test_coach_with_worst_win_percentage
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
+
+    assert_equal "Ted Nolan", @game_team_manager.coach_with_worst_win_percentage(coach_results)
+
+  end
 end
