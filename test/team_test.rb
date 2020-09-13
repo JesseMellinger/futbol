@@ -92,18 +92,6 @@ class TeamTest < Minitest::Test
     assert_equal expected, @team.games_by_season
   end
 
-  def test_it_can_calculate_win_percentage
-    game_1 = mock
-    game_2 = mock
-    game_3 = mock
-    game_1.stubs(:result).returns("WIN")
-    game_2.stubs(:result).returns("WIN")
-    game_3.stubs(:result).returns("LOSS")
-
-    games = [game_1, game_2, game_3]
-    assert_equal 0.67, @team.win_percentage(games)
-  end
-
   def test_it_has_team_games
     assert_equal 463, @team.team_games.count
   end

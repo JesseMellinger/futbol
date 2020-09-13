@@ -42,4 +42,8 @@ class TeamManager
     find_team(team_id).average_win_percentage
   end
 
+  def win_percentage(game_teams)
+    tracker.game_team_manager.win_percentage(game_teams)
+  end
+
 end
