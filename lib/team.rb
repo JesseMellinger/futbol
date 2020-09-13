@@ -31,6 +31,10 @@ class Team
     end.first
   end
 
+  def average_win_percentage
+    win_percentage(team_games)
+  end
+
   def seasons_by_win_percentage
     seasons_by_win_percentage = {}
     games_by_season.each do |season, games|

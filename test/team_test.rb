@@ -112,4 +112,9 @@ class TeamTest < Minitest::Test
     assert_equal 463, @team.games.count
   end
 
+  def test_it_has_average_win_percentage
+    team = @team_manager.teams[4]
+    assert_equal 0.49, team.average_win_percentage
+  end
+
 end
