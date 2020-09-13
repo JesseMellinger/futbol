@@ -30,4 +30,10 @@ class GameManagerTest < Minitest::Test
     assert_equal @stat_tracker, @game_manager.tracker
   end
 
+  def test_get_all_game_by_team
+    assert @game_manager.find_games_by_team("1").all? do |game|
+      game.away_team_id == "1" || game.home_team_id == "1"
+    end
+  end
+
 end
