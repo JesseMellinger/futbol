@@ -50,14 +50,14 @@ class StatTrackerTest < Minitest::Test
     assert_equal "Reign FC", @stat_tracker.best_offense
   end
 
-<<<<<<< HEAD
   def test_get_worst_offense
     assert_equal "Utah Royals FC", @stat_tracker.worst_offense
   end
 
   def test_get_highest_scoring_visitor
     assert_equal "FC Dallas", @stat_tracker.highest_scoring_visitor
-=======
+  end
+
   # ************* Team Statistics Tests *************
 
   def test_it_has_team_info
@@ -69,7 +69,6 @@ class StatTrackerTest < Minitest::Test
       "link" => "/api/v1/teams/4"
     }
     assert_equal expected, @stat_tracker.team_info("4")
->>>>>>> be9913e91895bda4538bb526bc83a0eeeaeb00b2
   end
 
 end
