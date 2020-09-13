@@ -4,6 +4,7 @@ require './lib/game_manager'
 require './lib/game_teams_manager'
 
 class StatTracker
+  attr_reader :team_manager, ;game_manager, :game_team_manager
 
   def self.from_csv(locations)
     StatTracker.new(locations)
@@ -86,7 +87,7 @@ class StatTracker
   # ************* SeasonStatistics *************
 
   def winningest_coach(season_id)
-
+    @game_manager.winningest_coach(season_id)
   end
 
   def worst_coach
