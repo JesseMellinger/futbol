@@ -38,4 +38,8 @@ class TeamManager
     find_team(team_id).worst_season
   end
 
+  def average_win_percentage(team_id)
+    find_team(team_id).average_win_percentage
+  end
+
 end
