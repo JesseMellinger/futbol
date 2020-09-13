@@ -30,4 +30,12 @@ class TeamManager
     find_team(team_id).team_info
   end
 
+  def best_season(team_id)
+    find_team(team_id).best_season
+  end
+
+  def worst_season(team_id)
+    find_team(team_id).worst_season
+  end
+
 end

@@ -47,4 +47,12 @@ class TeamManagerTest < Minitest::Test
     assert_equal expected, @team_manager.team_info("4")
   end
 
+  def test_it_has_a_best_season
+    assert_equal "20132014", @team_manager.best_season("6")
+  end
+
+  def test_it_has_a_worst_season
+    assert_equal "20142015", @team_manager.worst_season("6")
+  end
+
 end

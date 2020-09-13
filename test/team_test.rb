@@ -47,4 +47,69 @@ class TeamTest < Minitest::Test
     assert_equal expected, @team.team_info
   end
 
+  def test_it_has_a_best_season
+    team = @team_manager.teams[4]
+    assert_equal "20132014", team.best_season
+  end
+
+  def test_it_has_a_worst_season
+    team = @team_manager.teams[4]
+    assert_equal "20142015", team.worst_season
+  end
+
+  def test_it_has_seasons_by_win_percentage
+    team = @team_manager.teams[4]
+    expected = {
+      "20122013"=>0.54,
+      "20172018"=>0.53,
+      "20132014"=>0.57,
+      "20142015"=>0.38,
+      "20152016"=>0.4,
+      "20162017"=>0.51
+     }
+     assert_equal expected, team.seasons_by_win_percentage
+  end
+
+  def test_it_has_games_by_season
+    game_1 = mock
+    game_2 = mock
+    game_3 = mock
+    game_1.stubs(:season).returns("20122013")
+    game_2.stubs(:season).returns("20122013")
+    game_3.stubs(:season).returns("20132014")
+    game_1.stubs(:game_id).returns("1")
+    game_2.stubs(:game_id).returns("2")
+    game_3.stubs(:game_id).returns("3")
+
+
+    @team.stubs(:games).returns([game_1, game_2, game_3])
+    @team.stubs(:team_games).returns([game_1, game_2, game_3])
+
+    expected = {
+      "20122013" => [game_1, game_2],
+      "20132014" => [game_3]
+    }
+    assert_equal expected, @team.games_by_season
+  end
+
+  def test_it_can_calculate_win_percentage
+    game_1 = mock
+    game_2 = mock
+    game_3 = mock
+    game_1.stubs(:result).returns("WIN")
+    game_2.stubs(:result).returns("WIN")
+    game_3.stubs(:result).returns("LOSS")
+
+    games = [game_1, game_2, game_3]
+    assert_equal 0.67, @team.win_percentage(games)
+  end
+
+  def test_it_has_team_games
+    assert_equal 463, @team.team_games.count
+  end
+
+  def test_it_has_games
+    assert_equal 463, @team.games.count
+  end
+
 end
