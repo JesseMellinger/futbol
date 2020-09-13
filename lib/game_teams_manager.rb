@@ -52,4 +52,11 @@ class GameTeamManager
     end
   end
 
+  def win_percentage(game_teams)
+    wins = game_teams.count do |game|
+      game.result == "WIN"
+    end
+    (wins / game_teams.count.to_f).round(2)
+  end
+
 end
