@@ -115,12 +115,12 @@ class StatTracker
     @team_manager.team_info(team_id)
   end
 
-  def best_season
-
+  def best_season(team_id)
+    @team_manager.best_season(team_id)
   end
 
-  def worst_season
-
+  def worst_season(team_id)
+    @team_manager.worst_season(team_id)
   end
 
   def average_win_percentage
