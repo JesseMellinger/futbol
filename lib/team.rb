@@ -31,10 +31,14 @@ class Team
     end.first
   end
 
+  def average_win_percentage
+    manager.win_percentage(team_games)
+  end
+
   def seasons_by_win_percentage
     seasons_by_win_percentage = {}
     games_by_season.each do |season, games|
-      seasons_by_win_percentage[season] = win_percentage(games)
+      seasons_by_win_percentage[season] = manager.win_percentage(games)
     end
     seasons_by_win_percentage
   end
@@ -45,14 +49,6 @@ class Team
         team_game.game_id == game.game_id
       end.season
     end
-  end
-
-  #Doesn't feels like it belong in this class, but maybe a module
-  def win_percentage(games)
-    wins = games.count do |game|
-      game.result == "WIN"
-    end
-    (wins / games.count.to_f).round(2)
   end
 
   def team_games

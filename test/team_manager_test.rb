@@ -55,4 +55,20 @@ class TeamManagerTest < Minitest::Test
     assert_equal "20142015", @team_manager.worst_season("6")
   end
 
+  def test_it_has_average_win_percentage
+    assert_equal 0.49, @team_manager.average_win_percentage("6")
+  end
+
+  def test_it_can_calculate_win_percentage
+    game_1 = mock
+    game_2 = mock
+    game_3 = mock
+    game_1.stubs(:result).returns("WIN")
+    game_2.stubs(:result).returns("WIN")
+    game_3.stubs(:result).returns("LOSS")
+
+    games = [game_1, game_2, game_3]
+    assert_equal 0.67, @team_manager.win_percentage(games)
+  end
+
 end

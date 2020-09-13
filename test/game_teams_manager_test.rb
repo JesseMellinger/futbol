@@ -58,4 +58,16 @@ class GameTeamManagerTest < Minitest::Test
     end
   end
 
+  def test_it_can_calculate_win_percentage
+    game_1 = mock
+    game_2 = mock
+    game_3 = mock
+    game_1.stubs(:result).returns("WIN")
+    game_2.stubs(:result).returns("WIN")
+    game_3.stubs(:result).returns("LOSS")
+
+    games = [game_1, game_2, game_3]
+    assert_equal 0.67, @game_team_manager.win_percentage(games)
+  end
+
 end
