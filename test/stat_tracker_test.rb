@@ -47,4 +47,17 @@ class StatTrackerTest < Minitest::Test
     assert_equal "Reign FC", @stat_tracker.best_offense
   end
 
+  # ************* Team Statistics Tests *************
+
+  def test_it_has_team_info
+    expected = {
+      "team_id" => "4",
+      "franchise_id" => "16",
+      "team_name" => "Chicago Fire",
+      "abbreviation" => "CHI",
+      "link" => "/api/v1/teams/4"
+    }
+    assert_equal expected, @stat_tracker.team_info("4")
+  end
+
 end
