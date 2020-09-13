@@ -47,4 +47,27 @@ class TeamTest < Minitest::Test
     assert_equal expected, @team.team_info
   end
 
+  def test_it_has_a_best_season
+    team = @team_manager.teams[4]
+    assert_equal "20132014", team.best_season
+  end
+
+  def test_it_has_a_worst_season
+    team = @team_manager.teams[4]
+    assert_equal "20142015", team.worst_season
+  end
+
+  def test_it_has_seasons_by_win_percentage
+    team = @team_manager.teams[4]
+    expected = {
+      "20122013"=>0.54,
+      "20172018"=>0.53,
+      "20132014"=>0.57,
+      "20142015"=>0.38,
+      "20152016"=>0.4,
+      "20162017"=>0.51
+     }
+     assert_equal expected, team.seasons_by_win_percentage
+  end
+
 end
