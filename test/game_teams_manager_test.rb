@@ -36,7 +36,11 @@ class GameTeamManagerTest < Minitest::Test
   end
 
   def test_get_worst_offense
-    assert_equal "Utah Royals FC", @stat_tracker.worst_offense
+    assert_equal "Utah Royals FC", @game_team_manager.worst_offense
+  end
+
+  def test_get_highest_scoring_visitor
+    assert_equal "FC Dallas", @game_team_manager.highest_scoring_visitor
   end
 
   def test_get_all_home_or_away_games
