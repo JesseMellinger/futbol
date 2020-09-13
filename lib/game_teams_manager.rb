@@ -46,4 +46,17 @@ class GameTeamManager
     end
   end
 
+  def find_games_by_team(team_id)
+    @game_teams.find_all do |game_team|
+      game_team.team_id == team_id
+    end
+  end
+
+  def win_percentage(game_teams)
+    wins = game_teams.count do |game|
+      game.result == "WIN"
+    end
+    (wins / game_teams.count.to_f).round(2)
+  end
+
 end

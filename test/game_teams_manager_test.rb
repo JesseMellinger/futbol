@@ -52,4 +52,25 @@ class GameTeamManagerTest < Minitest::Test
     end
   end
 
+<<<<<<< HEAD
+=======
+  def test_get_all_game_by_team
+    assert @game_team_manager.find_games_by_team("1").all? do |game_team|
+      game_team.team_id == "1"
+    end
+  end
+
+  def test_it_can_calculate_win_percentage
+    game_1 = mock
+    game_2 = mock
+    game_3 = mock
+    game_1.stubs(:result).returns("WIN")
+    game_2.stubs(:result).returns("WIN")
+    game_3.stubs(:result).returns("LOSS")
+
+    games = [game_1, game_2, game_3]
+    assert_equal 0.67, @game_team_manager.win_percentage(games)
+  end
+
+>>>>>>> 13104dee18616514decd3d05347e6745bbb79e85
 end

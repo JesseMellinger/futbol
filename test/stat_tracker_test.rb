@@ -22,19 +22,14 @@ class StatTrackerTest < Minitest::Test
     assert_instance_of StatTracker, @stat_tracker
   end
 
-  def test_read_from_games_file
-    assert_equal "Postseason", @stat_tracker.games[0]["type"]
-    assert_equal "Toyota Stadium", @stat_tracker.games[1]["venue"]
+  def test_it_can_load_managers
+    assert_instance_of TeamManager, @stat_tracker.team_manager
+    assert_instance_of GameManager, @stat_tracker.game_manager
+    assert_instance_of GameTeamManager, @stat_tracker.game_team_manager
   end
 
-  def test_read_from_teams_file
-    assert_equal "Atlanta United", @stat_tracker.teams[0]["teamName"]
-    assert_equal "SeatGeek Stadium", @stat_tracker.teams[1]["Stadium"]
-  end
-
-  def test_read_from_game_teams_file
-    assert_equal "8", @stat_tracker.game_teams[0]["shots"]
-    assert_equal "55.2", @stat_tracker.game_teams[1]["faceOffWinPercentage"]
+  def test_it_can_load_csv
+    assert_instance_of CSV::Table, @stat_tracker.load_csv(@locations[:teams])
   end
 
   # ************* LeagueStatistics Tests *************
@@ -74,6 +69,10 @@ class StatTrackerTest < Minitest::Test
 
   def test_it_has_a_worst_season
     assert_equal "20142015", @stat_tracker.worst_season("6")
+  end
+
+  def test_it_has_average_win_percentage
+    assert_equal 0.49, @stat_tracker.average_win_percentage("6")
   end
 
 end
