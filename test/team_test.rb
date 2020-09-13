@@ -70,4 +70,26 @@ class TeamTest < Minitest::Test
      assert_equal expected, team.seasons_by_win_percentage
   end
 
+  def test_it_has_games_by_season
+    game_1 = mock
+    game_2 = mock
+    game_3 = mock
+    game_1.stubs(:season).returns("20122013")
+    game_2.stubs(:season).returns("20122013")
+    game_3.stubs(:season).returns("20132014")
+    game_1.stubs(:game_id).returns("1")
+    game_2.stubs(:game_id).returns("2")
+    game_3.stubs(:game_id).returns("3")
+
+
+    @team.stubs(:games).returns([game_1, game_2, game_3])
+    @team.stubs(:team_games).returns([game_1, game_2, game_3])
+
+    expected = {
+      "20122013" => [game_1, game_2],
+      "20132014" => [game_3]
+    }
+    assert_equal expected, @team.games_by_season
+  end
+
 end
