@@ -52,10 +52,4 @@ class GameTeamManagerTest < Minitest::Test
     end
   end
 
-  def test_get_all_game_by_team
-    assert @game_team_manager.find_games_by_team("1").all? do |game_team|
-      game_team.team_id == "1"
-    end
-  end
-
 end

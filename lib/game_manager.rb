@@ -26,10 +26,4 @@ class GameManager
     end.map {|game| game.game_id}
   end
 
-  def find_games_by_team(team_id)
-    @games.find_all do |game|
-      game.away_team_id == team_id || game.home_team_id == team_id
-    end
-  end
-
 end
