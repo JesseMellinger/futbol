@@ -87,7 +87,11 @@ class StatTracker
   # ************* SeasonStatistics *************
 
   def winningest_coach(season_id)
+<<<<<<< HEAD
     @game_manager.winningest_coach(season_id)
+=======
+
+>>>>>>> be9913e91895bda4538bb526bc83a0eeeaeb00b2
   end
 
   def worst_coach
@@ -112,8 +116,8 @@ class StatTracker
 
   # ************* TeamStatistics *************
 
-  def team_info
-
+  def team_info(team_id)
+    @team_manager.team_info(team_id)
   end
 
   def best_season

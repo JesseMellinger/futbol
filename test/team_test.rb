@@ -36,4 +36,15 @@ class TeamTest < Minitest::Test
     assert_equal @team_manager, @team.manager
   end
 
+  def test_it_has_team_info
+    expected = {
+      "team_id" => "1",
+      "franchise_id" => "23",
+      "team_name" => "Atlanta United",
+      "abbreviation" => "ATL",
+      "link" => "/api/v1/teams/1"
+    }
+    assert_equal expected, @team.team_info
+  end
+
 end

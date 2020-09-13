@@ -31,4 +31,20 @@ class TeamManagerTest < Minitest::Test
     assert_equal @stat_tracker, @team_manager.tracker
   end
 
+  def test_it_can_find_team
+    assert_instance_of Team, @team_manager.find_team("4")
+    assert_equal "4", @team_manager.find_team("4").team_id
+  end
+
+  def test_it_has_team_info
+    expected = {
+      "team_id" => "4",
+      "franchise_id" => "16",
+      "team_name" => "Chicago Fire",
+      "abbreviation" => "CHI",
+      "link" => "/api/v1/teams/4"
+    }
+    assert_equal expected, @team_manager.team_info("4")
+  end
+
 end
