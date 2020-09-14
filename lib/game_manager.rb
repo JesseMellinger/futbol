@@ -93,4 +93,27 @@ class GameManager
     (count.sum.to_f/ @games.length).round(2)
   end
 
+  def total_goals_by_season
+   hash = Hash[self.season_keys.collect {|item| [item, 0]}]
+   hash.each do |season, games|
+     @games.each do |game|
+       if game.season.include?(season)
+         hash[season] += game.away_goals.to_i + game.home_goals.to_i
+       end
+     end
+   end
+ end
+
+ def average_goals_by_season
+    goals_hash = Hash.new(0)
+    total_goals_by_season.each do |season1, goals|
+      count_of_games_by_season.each do |season2, games|
+        if season2.include?(season1)
+          goals_hash[season2] = (goals/ games.to_f).round(2)
+        end
+      end
+    end
+    goals_hash
+  end
+
 end
