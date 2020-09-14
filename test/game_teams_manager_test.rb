@@ -47,11 +47,15 @@ class GameTeamManagerTest < Minitest::Test
   end
 
   def test_get_highest_scoring_home_team
-    assert_equal "Reign FC", @stat_tracker.highest_scoring_home_team
+    assert_equal "Reign FC", @game_team_manager.highest_scoring_home_team
   end
 
   def test_get_lowest_scoring_visitor
-    assert_equal "San Jose Earthquakes", @stat_tracker.lowest_scoring_visitor
+    assert_equal "San Jose Earthquakes", @game_team_manager.lowest_scoring_visitor
+  end
+
+  def test_get_lowest_scoring_home_team
+    assert_equal "Utah Royals FC", @game_team_manager.lowest_scoring_home_team
   end
 
   def test_get_all_home_or_away_games

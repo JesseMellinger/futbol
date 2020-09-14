@@ -49,12 +49,20 @@ class GameTeamManager
   end
 
   def lowest_scoring_visitor
-  away_games = find_all_home_or_away_games("away")
-  team_id = group_by(away_games, :team_id, :goals).min_by do |team_id, goals_in_game|
-    goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-  end.first
-  @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
-end
+    away_games = find_all_home_or_away_games("away")
+    team_id = group_by(away_games, :team_id, :goals).min_by do |team_id, goals_in_game|
+      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
+    end.first
+    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+  end
+
+  def lowest_scoring_home_team
+    home_games = find_all_home_or_away_games("home")
+    team_id = group_by(home_games, :team_id, :goals).min_by do |team_id, goals_in_game|
+      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
+    end.first
+    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+  end
 
   def find_all_home_or_away_games(hoa)
     @game_teams.find_all do |game_team|

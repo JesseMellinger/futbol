@@ -58,6 +58,10 @@ class StatTrackerTest < Minitest::Test
     assert_equal "San Jose Earthquakes", @stat_tracker.lowest_scoring_visitor
   end
 
+  def test_get_lowest_scoring_home_team
+    assert_equal "Utah Royals FC", @stat_tracker.lowest_scoring_home_team
+  end
+
   # ************* Team Statistics Tests *************
 
   def test_it_has_team_info
