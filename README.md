@@ -11,6 +11,6 @@ Also, a module is introduced named `Groupable` which holds a method that groups 
 
 Design Structure:
 
-![alt text][logo]
+![Design Structure][logo]
 
-[logo]: /Users/jessemellinger/Downloads/class_diagram.jpg "Design Structure"
+[logo]: https://user-images.githubusercontent.com/29828129/93120873-3e05c100-f681-11ea-9421-f44889fb3ec7.jpg "Design Structure"
