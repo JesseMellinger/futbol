@@ -54,4 +54,12 @@ class TeamManager
     find_team(team_id).fewest_goals_scored
   end
 
+  def favorite_opponent(team_id)
+    find_team(team_id).favorite_opponent(team_id)
+  end
+
+  def rival(team_id)
+    find_team(team_id).rival(team_id)
+  end
+
 end

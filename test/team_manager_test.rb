@@ -79,4 +79,12 @@ class TeamManagerTest < Minitest::Test
     assert_equal 0, @team_manager.fewest_goals_scored("18")
   end
 
+  def test_favorite_opponent
+    assert_equal "DC United", @team_manager.favorite_opponent("18")
+  end
+
+  def test_it_has_a_rival
+    assert_equal "LA Galaxy", @team_manager.rival("18")
+  end
+
 end
