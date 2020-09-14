@@ -125,7 +125,8 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal "Columbus Crew SC", @stat_tracker.least_accurate_team("20142015")
     assert_equal "New York City FC", @stat_tracker.least_accurate_team("20132014")
-
+  end
+  
   #************Game Statistics *********************
   def test_highest_total_score
     assert_equal 11, @stat_tracker.highest_total_score

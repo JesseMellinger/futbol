@@ -184,6 +184,7 @@ class GameTeamManager
 
   def least_accurate_team_name(team_id_with_lowest_ratio)
     @tracker.team_info(team_id_with_lowest_ratio)["team_name"]
+  end
 
   def opponent(game_team)
     game_teams.find do |game|
@@ -191,4 +192,3 @@ class GameTeamManager
       end
     end
   end
-end
