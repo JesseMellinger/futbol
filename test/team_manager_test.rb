@@ -71,4 +71,12 @@ class TeamManagerTest < Minitest::Test
     assert_equal 0.67, @team_manager.win_percentage(games)
   end
 
+  def test_most_goals_scored
+    assert_equal 7, @team_manager.most_goals_scored("18")
+  end
+
+  def test_fewest_goals_scored
+    assert_equal 0, @team_manager.fewest_goals_scored("18")
+  end
+
 end

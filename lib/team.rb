@@ -59,4 +59,16 @@ class Team
     @manager.tracker.game_manager.find_games_by_team(team_id)
   end
 
+  def most_goals_scored
+    team_games.max_by do |game|
+      game.goals
+    end.goals.to_i
+  end
+
+  def fewest_goals_scored
+    team_games.min_by do |game|
+      game.goals
+    end.goals.to_i
+  end
+
 end
