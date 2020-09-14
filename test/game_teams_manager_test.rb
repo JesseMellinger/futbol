@@ -212,7 +212,7 @@ class GameTeamManagerTest < Minitest::Test
     shots_to_goals_ratio = @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots)
     team_id_with_lowest_ratio = @game_team_manager.least_accurate_team_id(shots_to_goals_ratio)
 
-    assert_equal "Toronto FC", @game_team_manager.least_accurate_team_name(team_id_with_lowest_ratio)
+    assert_equal "Columbus Crew SC", @game_team_manager.least_accurate_team_name(team_id_with_lowest_ratio)
   end
 
   def test_least_accurate_team
@@ -226,6 +226,8 @@ class GameTeamManagerTest < Minitest::Test
     @game_team_manager.least_accurate_team_name(team_id_with_lowest_ratio)
 
     assert_equal "Columbus Crew SC", @game_team_manager.least_accurate_team(game_id_array)
+
+  end
 
   def test_it_can_find_opponent_of_a_game
     game1 = mock
