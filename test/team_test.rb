@@ -157,4 +157,7 @@ class TeamTest < Minitest::Test
     assert_equal expected, @team.games_by_opponent
   end
 
+  def test_it_has_opponent_team_games
+    assert_equal 463, @team.opponent_team_games.count
+  end
 end
