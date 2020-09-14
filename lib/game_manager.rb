@@ -32,4 +32,11 @@ class GameManager
     end
   end
 
+  def highest_total_score
+    scores = @games.map do |game|
+      game.home_goals.to_i + game.away_goals.to_i
+    end.max
+  end
+  
+
 end
