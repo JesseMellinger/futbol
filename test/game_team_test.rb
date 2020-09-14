@@ -39,4 +39,9 @@ class GameTeamTest < Minitest::Test
     assert_equal @game_team_manager, @game_team.manager
   end
 
+  def test_it_can_find_opponent
+    assert_equal @game_team.game_id, @game_team.opponent.game_id
+    refute_equal @game_team.team_id, @game_team.opponent.team_id
+  end
+
 end
