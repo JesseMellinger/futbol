@@ -106,8 +106,8 @@ class StatTrackerTest < Minitest::Test
   # ************* Season Statistics *************
 
   def test_winningest_coach
-    assert_equal "Claude Julien", @stat_tracker.winningest_coach(game_ids)
-    assert_equal "Alain Vigneault", @stat_tracker.winningest_coach(game_ids)
+    assert_equal "Claude Julien", @stat_tracker.winningest_coach("20132014")
+    assert_equal "Alain Vigneault", @stat_tracker.winningest_coach("20142015")
   end
 
   def test_worst_coach
@@ -115,6 +115,18 @@ class StatTrackerTest < Minitest::Test
     assert_equal "Peter Laviolette", @stat_tracker.worst_coach("20132014")
   end
 
+  def test_most_accurate_team
+
+    assert_equal "Toronto FC", @stat_tracker.most_accurate_team("20142015")
+    assert_equal "Real Salt Lake", @stat_tracker.most_accurate_team("20132014")
+  end
+
+  def test_least_accurate_team
+
+    assert_equal "Columbus Crew SC", @stat_tracker.least_accurate_team("20142015")
+    assert_equal "New York City FC", @stat_tracker.least_accurate_team("20132014")
+  end
+  
   #************Game Statistics *********************
   def test_highest_total_score
     assert_equal 11, @stat_tracker.highest_total_score

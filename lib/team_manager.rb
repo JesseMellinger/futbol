@@ -46,6 +46,14 @@ class TeamManager
     tracker.game_team_manager.win_percentage(game_teams)
   end
 
+  def most_accurate_team(season_id)
+    @tracker.game_team_manager.most_accurate_team(@tracker.game_manager.find_game_ids_of_season(season_id))
+  end
+
+  def least_accurate_team(season_id)
+    @tracker.game_team_manager.least_accurate_team(@tracker.game_manager.find_game_ids_of_season(season_id))
+  end
+
   def most_goals_scored(team_id)
     find_team(team_id).most_goals_scored
   end
@@ -61,5 +69,4 @@ class TeamManager
   def rival(team_id)
     find_team(team_id).rival
   end
-
 end

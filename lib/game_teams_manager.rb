@@ -119,9 +119,76 @@ class GameTeamManager
     (wins / game_teams.count.to_f).round(2)
   end
 
+  def most_accurate_team(game_ids)
+    season_games = find_season_by_game_ids(game_ids)
+    total_shots = find_total_shots_by_team(season_games)
+    total_goals = find_total_goals_by_team(season_games)
+
+    shots_to_goals_ratio = find_shots_to_goal_ratio(total_goals, total_shots)
+    team_id_with_highest_ratio = most_accurate_team_id(shots_to_goals_ratio)
+    most_accurate_team_name(team_id_with_highest_ratio)
+  end
+
+  def least_accurate_team(game_ids)
+    season_games = find_season_by_game_ids(game_ids)
+    total_shots = find_total_shots_by_team(season_games)
+    total_goals = find_total_goals_by_team(season_games)
+
+    shots_to_goals_ratio = find_shots_to_goal_ratio(total_goals, total_shots)
+    team_id_with_lowest_ratio = least_accurate_team_id(shots_to_goals_ratio)
+    least_accurate_team_name(team_id_with_lowest_ratio)
+  end
+
+  def find_total_shots_by_team(season_games)
+    total_shots_by_team = {}
+    season_games.each do |game|
+    if total_shots_by_team[game.team_id]
+      total_shots_by_team[game.team_id] += (game.shots).to_i
+    else
+      total_shots_by_team[game.team_id] = (game.shots).to_i
+      end
+    end
+    total_shots_by_team
+  end
+
+  def find_total_goals_by_team(season_games)
+    total_goals_by_team = {}
+    season_games.each do |game|
+    if total_goals_by_team[game.team_id]
+      total_goals_by_team[game.team_id] += (game.goals).to_i
+    else
+      total_goals_by_team[game.team_id] = (game.goals).to_i
+      end
+    end
+    total_goals_by_team
+  end
+
+  def find_shots_to_goal_ratio(total_goals, total_shots)
+    shots_to_goal_ratio = total_goals.merge!(total_shots) {|key, value1, value2|
+    (value1.to_f / value2.to_f).round(6)}
+  end
+
+  def most_accurate_team_id(shots_to_goals_ratio)
+    highest_ratio = shots_to_goals_ratio.values.max
+    team_with_highest_ratio = shots_to_goals_ratio.key(highest_ratio)
+  end
+
+  def least_accurate_team_id(shots_to_goal_ratio)
+    lowest_ratio = shots_to_goal_ratio.values.min
+    team_with_lowest_ratio = shots_to_goal_ratio.key(lowest_ratio)
+  end
+
+  def most_accurate_team_name(team_id_with_highest_ratio)
+    @tracker.team_info(team_id_with_highest_ratio)["team_name"]
+  end
+
+  def least_accurate_team_name(team_id_with_lowest_ratio)
+    @tracker.team_info(team_id_with_lowest_ratio)["team_name"]
+  end
+
   def opponent(game_team)
     game_teams.find do |game|
       game_team.game_id == game.game_id && game.team_id != game_team.team_id
+      end
     end
   end
-end

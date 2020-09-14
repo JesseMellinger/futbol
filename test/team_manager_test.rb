@@ -71,6 +71,16 @@ class TeamManagerTest < Minitest::Test
     assert_equal 0.67, @team_manager.win_percentage(games)
   end
 
+  def test_most_accurate_team
+    assert_equal "Toronto FC", @team_manager.most_accurate_team("20142015")
+    assert_equal "Real Salt Lake", @team_manager.most_accurate_team("20132014")
+  end
+
+  def test_least_accurate_team
+    assert_equal "Columbus Crew SC", @team_manager.least_accurate_team("20142015")
+    assert_equal "New York City FC", @team_manager.least_accurate_team("20132014")
+  end
+
   def test_most_goals_scored
     assert_equal 7, @team_manager.most_goals_scored("18")
   end
@@ -86,5 +96,4 @@ class TeamManagerTest < Minitest::Test
   def test_it_has_a_rival
     assert_equal "LA Galaxy", @team_manager.rival("18")
   end
-
 end
