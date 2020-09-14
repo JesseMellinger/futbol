@@ -90,7 +90,8 @@ class StatTracker
     @game_manager.winningest_coach(season_id)
   end
 
-  def worst_coach
+  def worst_coach(season_id)
+    @game_manager.worst_coach(season_id)
 
   end
 

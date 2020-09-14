@@ -36,4 +36,13 @@ class GameManagerTest < Minitest::Test
     end
   end
 
+  def test_worst_coach
+    assert_equal "Ted Nolan", @game_manager.worst_coach("20142015")
+    assert_equal "Peter Laviolette", @game_manager.worst_coach("20132014")
+  end
+
+  def test_find_game_ids_of_season
+
+    assert_equal 1319, @game_manager.find_game_ids_of_season("20142015").length
+  end
 end

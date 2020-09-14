@@ -75,4 +75,15 @@ class StatTrackerTest < Minitest::Test
     assert_equal 0.49, @stat_tracker.average_win_percentage("6")
   end
 
+  # ************* Season Statistics *************
+
+  def test_winningest_coach
+    assert_equal "Claude Julien", @stat_tracker.winningest_coach(game_ids)
+    assert_equal "Alain Vigneault", @stat_tracker.winningest_coach(game_ids)
+  end
+
+  def test_worst_coach
+    assert_equal "Ted Nolan", @stat_tracker.worst_coach("20142015")
+    assert_equal "Peter Laviolette", @stat_tracker.worst_coach("20132014")
+  end
 end
