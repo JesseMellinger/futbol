@@ -50,6 +50,10 @@ class StatTrackerTest < Minitest::Test
     assert_equal "FC Dallas", @stat_tracker.highest_scoring_visitor
   end
 
+  def test_get_highest_scoring_home_team
+    assert_equal "Reign FC", @stat_tracker.highest_scoring_home_team
+  end
+
   # ************* Team Statistics Tests *************
 
   def test_it_has_team_info
