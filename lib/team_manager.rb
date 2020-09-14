@@ -46,4 +46,12 @@ class TeamManager
     tracker.game_team_manager.win_percentage(game_teams)
   end
 
+  def most_goals_scored(team_id)
+    find_team(team_id).most_goals_scored
+  end
+
+  def fewest_goals_scored(team_id)
+    find_team(team_id).fewest_goals_scored
+  end
+
 end
