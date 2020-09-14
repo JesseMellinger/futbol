@@ -55,11 +55,11 @@ class TeamManager
   end
 
   def favorite_opponent(team_id)
-    find_team(team_id).favorite_opponent(team_id)
+    find_team(team_id).favorite_opponent
   end
 
   def rival(team_id)
-    find_team(team_id).rival(team_id)
+    find_team(team_id).rival
   end
 
 end
