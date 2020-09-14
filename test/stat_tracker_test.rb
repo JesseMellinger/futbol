@@ -32,7 +32,7 @@ class StatTrackerTest < Minitest::Test
     assert_instance_of CSV::Table, @stat_tracker.load_csv(@locations[:teams])
   end
 
-  # ************* LeagueStatistics Tests *************
+  # ************* League Statistics Tests *************
 
   def test_get_number_of_teams
     assert_equal 32, @stat_tracker.count_of_teams
@@ -52,6 +52,10 @@ class StatTrackerTest < Minitest::Test
 
   def test_get_highest_scoring_home_team
     assert_equal "Reign FC", @stat_tracker.highest_scoring_home_team
+  end
+
+  def test_get_lowest_scoring_visitor
+    assert_equal "San Jose Earthquakes", @stat_tracker.lowest_scoring_visitor
   end
 
   # ************* Team Statistics Tests *************
