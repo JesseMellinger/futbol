@@ -105,4 +105,14 @@ class TeamTest < Minitest::Test
     assert_equal 0.49, team.average_win_percentage
   end
 
+  def test_most_goals_scored
+    team = @team_manager.find_team("18")
+    assert_equal 7, team.most_goals_scored
+  end
+
+  def test_fewest_goals_scored
+    team = @team_manager.find_team("18")
+    assert_equal 0, team.fewest_goals_scored
+  end
+
 end
