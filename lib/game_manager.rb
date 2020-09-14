@@ -37,6 +37,12 @@ class GameManager
       game.home_goals.to_i + game.away_goals.to_i
     end.max
   end
-  
+
+  def lowest_total_score
+    scores = @games.map do |game|
+      game.home_goals.to_i + game.away_goals.to_i
+    end.sort![0]
+  end
+
 
 end
