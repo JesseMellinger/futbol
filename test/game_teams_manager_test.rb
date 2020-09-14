@@ -49,6 +49,18 @@ class GameTeamManagerTest < Minitest::Test
     assert_equal "FC Dallas", @game_team_manager.highest_scoring_visitor
   end
 
+  def test_get_highest_scoring_home_team
+    assert_equal "Reign FC", @game_team_manager.highest_scoring_home_team
+  end
+
+  def test_get_lowest_scoring_visitor
+    assert_equal "San Jose Earthquakes", @game_team_manager.lowest_scoring_visitor
+  end
+
+  def test_get_lowest_scoring_home_team
+    assert_equal "Utah Royals FC", @game_team_manager.lowest_scoring_home_team
+  end
+
   def test_get_all_home_or_away_games
     assert @game_team_manager.find_all_home_or_away_games("away").all? do |game_team|
       game_team.hoa == "away"
@@ -191,7 +203,7 @@ class GameTeamManagerTest < Minitest::Test
     assert_equal "53", @game_team_manager.least_accurate_team_id(shots_to_goals_ratio)
   end
 
-  def test_least_accurate_team
+  def test_least_accurate_team_name
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
     season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
     total_shots = @game_team_manager.find_total_shots_by_team(season_games)

@@ -75,4 +75,12 @@ class TeamManagerTest < Minitest::Test
     assert_equal "Toronto FC", @team_manager.most_accurate_team("20142015")
     assert_equal "Real Salt Lake", @team_manager.most_accurate_team("20132014")
   end
+
+  def test_most_goals_scored
+    assert_equal 7, @team_manager.most_goals_scored("18")
+  end
+
+  def test_fewest_goals_scored
+    assert_equal 0, @team_manager.fewest_goals_scored("18")
+  end
 end

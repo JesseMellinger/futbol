@@ -53,4 +53,12 @@ class TeamManager
   def least_accurate_team(season_id)
     @tracker.game_team_manager.least_accurate_team(@tracker.game_manager.find_game_ids_of_season(season_id))
   end
+
+  def most_goals_scored(team_id)
+    find_team(team_id).most_goals_scored
+  end
+
+  def fewest_goals_scored(team_id)
+    find_team(team_id).fewest_goals_scored
+  end
 end
