@@ -71,4 +71,38 @@ class Team
     end.goals.to_i
   end
 
+  def favorite_opponent
+    opponent = opponents_by_win_percentage.min_by do |opponent, win_percentage|
+      win_percentage
+    end
+    @manager.team_info(opponent.first)["team_name"]
+  end
+
+  def rival
+    opponent = opponents_by_win_percentage.max_by do |opponent, win_percentage|
+      win_percentage
+    end
+    @manager.team_info(opponent.first)["team_name"]
+  end
+
+  def opponents_by_win_percentage
+    opponents_by_win_percentage = {}
+    games_by_opponent.each do |opponent, games|
+      opponents_by_win_percentage[opponent] = manager.win_percentage(games)
+    end
+    opponents_by_win_percentage
+  end
+
+  def games_by_opponent
+    opponent_team_games.group_by do |game|
+      game.team_id
+    end
+  end
+
+  def opponent_team_games
+    team_games.map do |game|
+      game.opponent
+    end
+  end
+
 end

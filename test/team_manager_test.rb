@@ -76,11 +76,24 @@ class TeamManagerTest < Minitest::Test
     assert_equal "Real Salt Lake", @team_manager.most_accurate_team("20132014")
   end
 
+  def test_least_accurate_team
+    assert_equal "Columbus Crew SC", @team_manager.least_accurate_team("20142015")
+    assert_equal "New York City FC", @team_manager.least_accurate_team("20132014")
+  end
+
   def test_most_goals_scored
     assert_equal 7, @team_manager.most_goals_scored("18")
   end
 
   def test_fewest_goals_scored
     assert_equal 0, @team_manager.fewest_goals_scored("18")
+  end
+
+  def test_favorite_opponent
+    assert_equal "DC United", @team_manager.favorite_opponent("18")
+  end
+
+  def test_it_has_a_rival
+    assert_equal "LA Galaxy", @team_manager.rival("18")
   end
 end

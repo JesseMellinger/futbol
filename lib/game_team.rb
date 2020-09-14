@@ -14,4 +14,8 @@ class GameTeam
     @manager = manager
   end
 
+  def opponent
+    @manager.opponent(self)
+  end
+
 end

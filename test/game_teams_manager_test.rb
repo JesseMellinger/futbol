@@ -226,5 +226,20 @@ class GameTeamManagerTest < Minitest::Test
     @game_team_manager.least_accurate_team_name(team_id_with_lowest_ratio)
 
     assert_equal "Columbus Crew SC", @game_team_manager.least_accurate_team(game_id_array)
+
+  def test_it_can_find_opponent_of_a_game
+    game1 = mock
+    game2 = mock
+    game3 = mock
+    game1.stubs(:game_id).returns("0000")
+    game2.stubs(:game_id).returns("0000")
+    game3.stubs(:game_id).returns("0001")
+    game1.stubs(:team_id).returns("1")
+    game2.stubs(:team_id).returns("2")
+    game3.stubs(:team_id).returns("1")
+
+    @game_team_manager.stubs(:game_teams).returns([game1, game2, game3])
+
+    assert_equal game2, @game_team_manager.opponent(game1)
   end
 end
