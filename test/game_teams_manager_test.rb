@@ -130,6 +130,21 @@ class GameTeamManagerTest < Minitest::Test
     coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
 
     assert_equal "Ted Nolan", @game_team_manager.coach_with_worst_win_percentage(coach_results)
+  end
 
+  def test_it_can_find_opponent_of_a_game
+    game1 = mock
+    game2 = mock
+    game3 = mock
+    game1.stubs(:game_id).returns("0000")
+    game2.stubs(:game_id).returns("0000")
+    game3.stubs(:game_id).returns("0001")
+    game1.stubs(:team_id).returns("1")
+    game2.stubs(:team_id).returns("2")
+    game3.stubs(:team_id).returns("1")
+
+    @game_team_manager.stubs(:game_teams).returns([game1, game2, game3])
+
+    assert_equal game2, @game_team_manager.opponent(game1)
   end
 end

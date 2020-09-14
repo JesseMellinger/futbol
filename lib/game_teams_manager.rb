@@ -118,4 +118,10 @@ class GameTeamManager
     end
     (wins / game_teams.count.to_f).round(2)
   end
+
+  def opponent(game_team)
+    game_teams.find do |game|
+      game_team.game_id == game.game_id && game.team_id != game_team.team_id
+    end
+  end
 end

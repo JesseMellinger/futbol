@@ -141,12 +141,12 @@ class StatTracker
     @team_manager.fewest_goals_scored(team_id)
   end
 
-  def favorite_opponent
-
+  def favorite_opponent(team_id)
+    @team_manager.favorite_opponent(team_id)
   end
 
-  def rival
-
+  def rival(team_id)
+    @team_manager.rival(team_id)
   end
 
 end
