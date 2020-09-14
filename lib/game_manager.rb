@@ -20,6 +20,10 @@ class GameManager
     @tracker.game_team_manager.winningest_coach(find_game_ids_of_season(season_id))
   end
 
+  def worst_coach(season_id)
+    @tracker.game_team_manager.worst_coach(find_game_ids_of_season(season_id))
+  end
+
   def find_game_ids_of_season(season_id)
     @games.find_all do |game|
       game.season == season_id
@@ -43,6 +47,4 @@ class GameManager
       game.home_goals.to_i + game.away_goals.to_i
     end.sort![0]
   end
-
-
 end
