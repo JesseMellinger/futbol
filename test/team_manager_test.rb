@@ -71,4 +71,8 @@ class TeamManagerTest < Minitest::Test
     assert_equal 0.67, @team_manager.win_percentage(games)
   end
 
+  def test_most_accurate_team
+    assert_equal "Toronto FC", @team_manager.most_accurate_team("20142015")
+    assert_equal "Real Salt Lake", @team_manager.most_accurate_team("20132014")
+  end
 end
