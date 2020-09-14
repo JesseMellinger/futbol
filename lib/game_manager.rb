@@ -56,16 +56,34 @@ class GameManager
   end
 
   def percentage_visitor_wins
-    count = @games.count do |row|
+    count = @games.count do |game|
       game.away_goals > game.home_goals
     end
     (count.to_f / @games.count).round(2)
   end
 
   def percentage_ties
-    count = @games.count do |row|
+    count = @games.count do |game|
       game.away_goals == game.home_goals
     end
     (count.to_f / @games.count).round(2)
   end
+
+  def season_keys
+    @games.map do |game|
+      game.season
+    end.uniq
+  end
+
+  def count_of_games_by_season
+    games_per_season = Hash[self.season_keys.collect {|item| [item, 0]}]
+    games_per_season.each do |season, games|
+      @games.each do |game|
+        if game.season.include?(season)
+          games_per_season[season] += 1
+        end
+      end
+    end
+  end
+
 end
