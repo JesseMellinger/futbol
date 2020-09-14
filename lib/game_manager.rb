@@ -47,4 +47,25 @@ class GameManager
       game.home_goals.to_i + game.away_goals.to_i
     end.sort![0]
   end
+
+  def percentage_home_wins
+    count = @games.count do |game|
+      game.home_goals > game.away_goals
+    end
+    (count.to_f / @games.count).round(2)
+  end
+
+  def percentage_visitor_wins
+    count = @games.count do |row|
+      game.away_goals > game.home_goals
+    end
+    (count.to_f / @games.count).round(2)
+  end
+
+  def percentage_ties
+    count = @games.count do |row|
+      game.away_goals == game.home_goals
+    end
+    (count.to_f / @games.count).round(2)
+  end
 end
