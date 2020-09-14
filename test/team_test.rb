@@ -134,10 +134,27 @@ class TeamTest < Minitest::Test
       "3"=>0.3, "14"=>0.0, "15"=>0.5, "28"=>0.44,
       "22"=>0.22, "24"=>0.26, "5"=>0.56, "2"=>0.4,
       "26"=>0.44, "7"=>0.3, "27"=>0.33, "6"=>0.3,
-      "13"=>0.6, "10"=>0.5, "9"=>0.2, "12"=>0.4, 
+      "13"=>0.6, "10"=>0.5, "9"=>0.2, "12"=>0.4,
       "54"=>0.33, "4"=>0.2, "53"=>0.25
      }
      assert_equal expected, team.opponents_by_win_percentage
+  end
+
+  def test_it_has_games_by_opponent
+    game_1 = mock
+    game_2 = mock
+    game_3 = mock
+    game_1.stubs(:team_id).returns("1")
+    game_2.stubs(:team_id).returns("1")
+    game_3.stubs(:team_id).returns("2")
+
+    @team.stubs(:opponent_team_games).returns([game_1, game_2, game_3])
+
+    expected = {
+      "1" => [game_1, game_2],
+      "2" => [game_3]
+    }
+    assert_equal expected, @team.games_by_opponent
   end
 
 end
