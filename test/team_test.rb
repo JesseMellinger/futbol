@@ -125,4 +125,19 @@ class TeamTest < Minitest::Test
     assert_equal "LA Galaxy", team.rival
   end
 
+  def test_it_has_opponents_by_win_percentage
+    team = @team_manager.find_team("18")
+    expected = {
+      "19"=>0.44, "52"=>0.45, "21"=>0.38, "20"=>0.39,
+      "17"=>0.64, "29"=>0.4, "25"=>0.37, "16"=>0.37,
+      "30"=>0.41, "1"=>0.4, "8"=>0.3, "23"=>0.39,
+      "3"=>0.3, "14"=>0.0, "15"=>0.5, "28"=>0.44,
+      "22"=>0.22, "24"=>0.26, "5"=>0.56, "2"=>0.4,
+      "26"=>0.44, "7"=>0.3, "27"=>0.33, "6"=>0.3,
+      "13"=>0.6, "10"=>0.5, "9"=>0.2, "12"=>0.4, 
+      "54"=>0.33, "4"=>0.2, "53"=>0.25
+     }
+     assert_equal expected, team.opponents_by_win_percentage
+  end
+
 end
