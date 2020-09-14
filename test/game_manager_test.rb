@@ -45,4 +45,12 @@ class GameManagerTest < Minitest::Test
 
     assert_equal 1319, @game_manager.find_game_ids_of_season("20142015").length
   end
+
+  def test_highest_total_score
+    assert_equal 11, @game_manager.highest_total_score
+  end
+
+  def test_lowest_total_score
+    assert_equal 0, @stat_tracker.lowest_total_score
+  end
 end
