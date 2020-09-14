@@ -86,4 +86,11 @@ class GameManager
     end
   end
 
+  def average_goals_per_game
+    count = @games.map do |game|
+      game.away_goals.to_i + game.home_goals.to_i
+    end
+    (count.sum.to_f/ @games.length).round(2)
+  end
+
 end
