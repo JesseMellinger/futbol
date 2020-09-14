@@ -46,6 +46,10 @@ class GameTeamManagerTest < Minitest::Test
     assert_equal "FC Dallas", @game_team_manager.highest_scoring_visitor
   end
 
+  def test_get_highest_scoring_home_team
+    assert_equal "Reign FC", @stat_tracker.highest_scoring_home_team
+  end
+
   def test_get_all_home_or_away_games
     assert @game_team_manager.find_all_home_or_away_games("away").all? do |game_team|
       game_team.hoa == "away"
