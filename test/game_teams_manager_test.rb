@@ -25,6 +25,7 @@ class GameTeamManagerTest < Minitest::Test
     @game_manager = GameManager.new(@game_data, @stat_tracker)
     @team_manager = TeamManager.new(@team_data, @stat_tracker)
     @team = @team_manager.teams
+    @game_teams = @game_team_manager.game_teams
 
   end
 
@@ -62,16 +63,16 @@ class GameTeamManagerTest < Minitest::Test
   end
 
   def test_get_all_home_or_away_games
-    assert @game_team_manager.find_all_home_or_away_games("away").all? do |game_team|
+    assert @game_team_manager.find_all_home_or_away_games(@game_teams, "away").all? do |game_team|
       game_team.hoa == "away"
     end
-    assert @game_team_manager.find_all_home_or_away_games("home").all? do |game_team|
+    assert @game_team_manager.find_all_home_or_away_games(@game_teams, "home").all? do |game_team|
       game_team.hoa == "home"
     end
   end
 
   def test_get_all_game_by_team
-    assert @game_team_manager.find_games_by_team("1").all? do |game_team|
+    assert @game_team_manager.find_games_by_team(@game_teams, "1").all? do |game_team|
       game_team.team_id == "1"
     end
   end
@@ -90,7 +91,7 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_winningest_coach
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
     coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
     @game_team_manager.coach_with_greatest_win_percentage(coach_results)
 
@@ -99,7 +100,7 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_worst_coach
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
     coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
     @game_team_manager.coach_with_worst_win_percentage(coach_results)
 
@@ -109,19 +110,19 @@ class GameTeamManagerTest < Minitest::Test
   def test_find_season_by_game_ids
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
 
-    assert_equal 2638, @game_team_manager.find_season_by_game_ids(game_id_array).length
+    assert_equal 2638, @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array).length
   end
 
   def test_group_season_games_by_coach_results
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
 
     assert_equal 35, @game_team_manager.group_season_games_by_coach_results(season_games).length
   end
 
   def test_coach_with_greatest_win_percentage
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
     coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
 
     assert_equal "Alain Vigneault", @game_team_manager.coach_with_greatest_win_percentage(coach_results)
@@ -129,7 +130,7 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_coach_with_worst_win_percentage
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
     coach_results = @game_team_manager.group_season_games_by_coach_results(season_games)
 
     assert_equal "Ted Nolan", @game_team_manager.coach_with_worst_win_percentage(coach_results)
@@ -181,14 +182,14 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_total_tackles
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
 
     assert_equal 30, @game_team_manager.total_tackles(season_games).length
   end
 
   def test_most_tackles
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
     total_tackles_by_team = @game_team_manager.total_tackles(season_games)
     team_id_with_most_tackles = @game_team_manager.team_id_most_or_fewest_tackles(total_tackles_by_team).first
 
@@ -197,7 +198,7 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_fewest_tackles
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
     total_tackles_by_team = @game_team_manager.total_tackles(season_games)
     team_id_with_fewest_tackles = @game_team_manager.team_id_most_or_fewest_tackles(total_tackles_by_team).last
 
@@ -206,7 +207,7 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_team_id_most_or_fewest_tackles
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    season_games = @game_team_manager.find_season_by_game_ids(@game_teams, game_id_array)
     total_tackles_by_team = @game_team_manager.total_tackles(season_games)
 
     assert_equal ["2", "30"], @game_team_manager.team_id_most_or_fewest_tackles(total_tackles_by_team)
