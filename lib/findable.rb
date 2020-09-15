@@ -11,4 +11,10 @@ module Findable
       object.team_id == team_id
     end
   end
+
+  def find_season_by_game_ids(data, game_ids)
+    data.find_all do |game|
+      game_ids.include?(game.game_id)
+    end
+  end
 end
