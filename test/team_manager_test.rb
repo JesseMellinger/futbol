@@ -101,4 +101,9 @@ class TeamManagerTest < Minitest::Test
     assert_equal "FC Cincinnati", @team_manager.most_tackles("20132014")
     assert_equal "Seattle Sounders FC", @team_manager.most_tackles("20142015")
   end
+
+  def test_fewest_tackles
+    assert_equal "Atlanta United", @team_manager.fewest_tackles("20132014")
+    assert_equal "Orlando City SC", @team_manager.fewest_tackles("20142015")
+  end
 end
