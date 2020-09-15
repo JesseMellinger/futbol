@@ -25,6 +25,7 @@ class GameTeamManagerTest < Minitest::Test
     @game_manager = GameManager.new(@game_data, @stat_tracker)
     @team_manager = TeamManager.new(@team_data, @stat_tracker)
     @team = @team_manager.teams
+    @game_teams = @game_team_manager.game_teams
 
   end
 
@@ -62,16 +63,16 @@ class GameTeamManagerTest < Minitest::Test
   end
 
   def test_get_all_home_or_away_games
-    assert @game_team_manager.find_all_home_or_away_games("away").all? do |game_team|
+    assert @game_team_manager.find_all_home_or_away_games(@game_teams, "away").all? do |game_team|
       game_team.hoa == "away"
     end
-    assert @game_team_manager.find_all_home_or_away_games("home").all? do |game_team|
+    assert @game_team_manager.find_all_home_or_away_games(@game_teams, "home").all? do |game_team|
       game_team.hoa == "home"
     end
   end
 
   def test_get_all_game_by_team
-    assert @game_team_manager.find_games_by_team("1").all? do |game_team|
+    assert @game_team_manager.find_games_by_team(@game_teams, "1").all? do |game_team|
       game_team.team_id == "1"
     end
   end
