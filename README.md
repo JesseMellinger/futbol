@@ -7,7 +7,7 @@ On the next rung of our class hierarchy sits the `Manager` classes. There are th
 
 At the individual object level there are three classes. The `Game`, `Team`, and `GameTeam` classes. By generating our collections at the `Manager` level with instances of these classes we are able to easily access row data by means of instance variables with reader methods. Also at this level are methods pertaining directly to these objects and are appropriate at this level as opposed to the `Manager` level where many instances of the same class are involved.
 
-Also, a module is introduced named `Groupable` which holds a method that groups data by row data passed into it as arguments. The logic of this method has been abstracted to allow for different data objects and row values to be passed in and grouped.
+Also, two modules are used named `Groupable` and `Findable`. The first of which holds a method that groups data by row data passed into it as arguments. The logic of this method has been abstracted to allow for different data objects and row values to be passed in and grouped. The second module contains methods responsible for finding the necessary data within different collections.
 
 Design Structure:
 
