@@ -154,4 +154,35 @@ class GameTeamManager
       game_team.game_id == game.game_id && game.team_id != game_team.team_id
       end
     end
+
+  def most_tackles(game_ids)
+    season_games = find_season_by_game_ids(game_ids)
+    total_tackles_by_team = total_tackles(season_games)
+    team_id_with_most_tackles = team_id_most_or_fewest_tackles(total_tackles_by_team).first
+    @tracker.team_manager.team_info(team_id_with_most_tackles)["team_name"]
   end
+
+  def total_tackles(season_games)
+    total_tackles_by_team = {}
+      season_games.each do |game|
+      if total_tackles_by_team[game.team_id]
+        total_tackles_by_team[game.team_id] += (game.tackles).to_i
+      else
+        total_tackles_by_team[game.team_id] = (game.tackles).to_i
+      end
+    end
+    total_tackles_by_team
+  end
+
+  def team_id_most_or_fewest_tackles(total_tackles_by_team)
+    max_and_min_ratios = total_tackles_by_team.values.minmax
+    [total_tackles_by_team.key(max_and_min_ratios.last), total_tackles_by_team.key(max_and_min_ratios.first)]
+  end
+
+  def fewest_tackles(game_ids)
+    season_games = find_season_by_game_ids(game_ids)
+    total_tackles_by_team = total_tackles(season_games)
+    team_id_with_fewest_tackles = team_id_most_or_fewest_tackles(total_tackles_by_team).last
+    @tracker.team_manager.team_info(team_id_with_fewest_tackles)["team_name"]
+  end
+end

@@ -69,4 +69,12 @@ class TeamManager
   def rival(team_id)
     find_team(team_id).rival
   end
+
+  def most_tackles(season_id)
+    @tracker.game_team_manager.most_tackles(@tracker.game_manager.find_game_ids_of_season(season_id))
+  end
+
+  def fewest_tackles(season_id)
+    @tracker.game_team_manager.fewest_tackles(@tracker.game_manager.find_game_ids_of_season(season_id))
+  end
 end

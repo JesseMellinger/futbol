@@ -107,12 +107,12 @@ class StatTracker
     @team_manager.least_accurate_team(season_id)
   end
 
-  def most_tackles
-
+  def most_tackles(season_id)
+    @team_manager.most_tackles(season_id)
   end
 
-  def fewest_tackles
-
+  def fewest_tackles(season_id)
+    @team_manager.fewest_tackles(season_id)
   end
 
   # ************* TeamStatistics *************
