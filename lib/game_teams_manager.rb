@@ -1,6 +1,6 @@
 require 'csv'
-require './lib/game_team'
-require './lib/groupable'
+require_relative './game_team'
+require_relative './groupable'
 
 class GameTeamManager
   include Groupable

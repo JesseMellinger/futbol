@@ -1,5 +1,5 @@
 require 'csv'
-require './lib/team'
+require_relative './team'
 
 class TeamManager
   attr_reader :teams, :tracker
