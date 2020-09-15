@@ -137,96 +137,30 @@ class GameTeamManagerTest < Minitest::Test
 
   def test_most_accurate_team
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-    total_shots = @game_team_manager.find_total_shots_by_team(season_games)
-    total_goals = @game_team_manager.find_total_goals_by_team(season_games)
-
-    shots_to_goals_ratio = @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots)
-    team_id_with_highest_ratio = @game_team_manager.most_accurate_team_id(shots_to_goals_ratio)
-    @game_team_manager.most_accurate_team_name(team_id_with_highest_ratio)
 
     assert_equal "Toronto FC", @game_team_manager.most_accurate_team(game_id_array)
   end
 
-  def test_find_total_shots_by_team
+  def test_least_accurate_team
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
 
-    assert_equal 30, @game_team_manager.find_total_shots_by_team(season_games).length
-  end
-
-  def test_find_total_goals_by_team
-    game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-
-    assert_equal 30, @game_team_manager.find_total_goals_by_team(season_games).length
-  end
-
-  def test_find_shots_to_goal_ratio
-    game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-    total_shots = @game_team_manager.find_total_shots_by_team(season_games)
-    total_goals = @game_team_manager.find_total_goals_by_team(season_games)
-
-    assert_equal 30, @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots).length
+    assert_equal "Columbus Crew SC", @game_team_manager.least_accurate_team(game_id_array)
   end
 
   def test_most_accurate_team_id
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-    total_shots = @game_team_manager.find_total_shots_by_team(season_games)
-    total_goals = @game_team_manager.find_total_goals_by_team(season_games)
-    shots_to_goals_ratio = @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots)
+    most_accurate_team = @game_team_manager.most_accurate_team(game_id_array)
+    most_accurate_team_id = @team_manager.teams.find {|team| team.team_name == most_accurate_team}.team_id
 
-    assert_equal "20", @game_team_manager.most_accurate_team_id(shots_to_goals_ratio)
-  end
-
-  def test_most_accurate_team_name
-    game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-    total_shots = @game_team_manager.find_total_shots_by_team(season_games)
-    total_goals = @game_team_manager.find_total_goals_by_team(season_games)
-
-    shots_to_goals_ratio = @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots)
-    team_id_with_highest_ratio = @game_team_manager.most_accurate_team_id(shots_to_goals_ratio)
-
-    assert_equal "Toronto FC", @game_team_manager.most_accurate_team_name(team_id_with_highest_ratio)
+    assert_equal "20", most_accurate_team_id
   end
 
   def test_least_accurate_id
     game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-    total_shots = @game_team_manager.find_total_shots_by_team(season_games)
-    total_goals = @game_team_manager.find_total_goals_by_team(season_games)
-    shots_to_goals_ratio = @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots)
+    least_accurate_team = @game_team_manager.least_accurate_team(game_id_array)
+    least_accurate_team_id = @team_manager.teams.find {|team| team.team_name == least_accurate_team}.team_id
 
-    assert_equal "53", @game_team_manager.least_accurate_team_id(shots_to_goals_ratio)
-  end
-
-  def test_least_accurate_team_name
-    game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-    total_shots = @game_team_manager.find_total_shots_by_team(season_games)
-    total_goals = @game_team_manager.find_total_goals_by_team(season_games)
-
-    shots_to_goals_ratio = @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots)
-    team_id_with_lowest_ratio = @game_team_manager.least_accurate_team_id(shots_to_goals_ratio)
-
-    assert_equal "Columbus Crew SC", @game_team_manager.least_accurate_team_name(team_id_with_lowest_ratio)
-  end
-
-  def test_least_accurate_team
-    game_id_array = @game_manager.find_game_ids_of_season("20142015")
-    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
-    total_shots = @game_team_manager.find_total_shots_by_team(season_games)
-    total_goals = @game_team_manager.find_total_goals_by_team(season_games)
-
-    shots_to_goals_ratio = @game_team_manager.find_shots_to_goal_ratio(total_goals, total_shots)
-    team_id_with_lowest_ratio = @game_team_manager.least_accurate_team_id(shots_to_goals_ratio)
-    @game_team_manager.least_accurate_team_name(team_id_with_lowest_ratio)
-
-    assert_equal "Columbus Crew SC", @game_team_manager.least_accurate_team(game_id_array)
-
+    assert_equal "53", least_accurate_team_id
   end
 
   def test_it_can_find_opponent_of_a_game
