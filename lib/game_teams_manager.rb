@@ -22,14 +22,14 @@ class GameTeamManager
     team_id = group_by(@game_teams, :team_id, :goals).max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+    @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def worst_offense
     team_id = group_by(@game_teams, :team_id, :goals).min_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+    @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def highest_scoring_visitor
@@ -37,7 +37,7 @@ class GameTeamManager
     team_id = group_by(away_games, :team_id, :goals).max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+    @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def highest_scoring_home_team
@@ -45,7 +45,7 @@ class GameTeamManager
     team_id = group_by(home_games, :team_id, :goals).max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+    @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def lowest_scoring_visitor
@@ -53,7 +53,7 @@ class GameTeamManager
     team_id = group_by(away_games, :team_id, :goals).min_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+    @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def lowest_scoring_home_team
@@ -61,7 +61,7 @@ class GameTeamManager
     team_id = group_by(home_games, :team_id, :goals).min_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
-    @tracker.team_manager.teams.find {|team| team.team_id == team_id}.team_name
+    @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def find_all_home_or_away_games(hoa)
@@ -121,69 +121,32 @@ class GameTeamManager
 
   def most_accurate_team(game_ids)
     season_games = find_season_by_game_ids(game_ids)
-    total_shots = find_total_shots_by_team(season_games)
-    total_goals = find_total_goals_by_team(season_games)
+    total_shots = group_by(season_games, :team_id, :shots)
+    total_goals = group_by(season_games, :team_id, :goals)
 
     shots_to_goals_ratio = find_shots_to_goal_ratio(total_goals, total_shots)
-    team_id_with_highest_ratio = most_accurate_team_id(shots_to_goals_ratio)
-    most_accurate_team_name(team_id_with_highest_ratio)
+    team_id_with_highest_ratio = get_most_or_least_accurate_team_id(shots_to_goals_ratio).first
+    @tracker.team_manager.team_info(team_id_with_highest_ratio)["team_name"]
   end
 
   def least_accurate_team(game_ids)
     season_games = find_season_by_game_ids(game_ids)
-    total_shots = find_total_shots_by_team(season_games)
-    total_goals = find_total_goals_by_team(season_games)
+    total_shots = group_by(season_games, :team_id, :shots)
+    total_goals = group_by(season_games, :team_id, :goals)
 
     shots_to_goals_ratio = find_shots_to_goal_ratio(total_goals, total_shots)
-    team_id_with_lowest_ratio = least_accurate_team_id(shots_to_goals_ratio)
-    least_accurate_team_name(team_id_with_lowest_ratio)
-  end
-
-  def find_total_shots_by_team(season_games)
-    total_shots_by_team = {}
-    season_games.each do |game|
-    if total_shots_by_team[game.team_id]
-      total_shots_by_team[game.team_id] += (game.shots).to_i
-    else
-      total_shots_by_team[game.team_id] = (game.shots).to_i
-      end
-    end
-    total_shots_by_team
-  end
-
-  def find_total_goals_by_team(season_games)
-    total_goals_by_team = {}
-    season_games.each do |game|
-    if total_goals_by_team[game.team_id]
-      total_goals_by_team[game.team_id] += (game.goals).to_i
-    else
-      total_goals_by_team[game.team_id] = (game.goals).to_i
-      end
-    end
-    total_goals_by_team
+    team_id_with_lowest_ratio = get_most_or_least_accurate_team_id(shots_to_goals_ratio).last
+    @tracker.team_manager.team_info(team_id_with_lowest_ratio)["team_name"]
   end
 
   def find_shots_to_goal_ratio(total_goals, total_shots)
     shots_to_goal_ratio = total_goals.merge!(total_shots) {|key, value1, value2|
-    (value1.to_f / value2.to_f).round(6)}
+    (value1.map(&:to_f).sum / value2.map(&:to_f).sum).round(6)}
   end
 
-  def most_accurate_team_id(shots_to_goals_ratio)
-    highest_ratio = shots_to_goals_ratio.values.max
-    team_with_highest_ratio = shots_to_goals_ratio.key(highest_ratio)
-  end
-
-  def least_accurate_team_id(shots_to_goal_ratio)
-    lowest_ratio = shots_to_goal_ratio.values.min
-    team_with_lowest_ratio = shots_to_goal_ratio.key(lowest_ratio)
-  end
-
-  def most_accurate_team_name(team_id_with_highest_ratio)
-    @tracker.team_info(team_id_with_highest_ratio)["team_name"]
-  end
-
-  def least_accurate_team_name(team_id_with_lowest_ratio)
-    @tracker.team_info(team_id_with_lowest_ratio)["team_name"]
+  def get_most_or_least_accurate_team_id(shots_to_goals_ratio)
+    max_and_min_ratios = shots_to_goals_ratio.values.minmax
+    [shots_to_goals_ratio.key(max_and_min_ratios.last), shots_to_goals_ratio.key(max_and_min_ratios.first)]
   end
 
   def opponent(game_team)
