@@ -96,4 +96,9 @@ class TeamManagerTest < Minitest::Test
   def test_it_has_a_rival
     assert_equal "LA Galaxy", @team_manager.rival("18")
   end
+
+  def test_most_tackles
+    assert_equal "FC Cincinnati", @team_manager.most_tackles("20132014")
+    assert_equal "Seattle Sounders FC", @team_manager.most_tackles("20142015")
+  end
 end

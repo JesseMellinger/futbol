@@ -191,4 +191,32 @@ class GameTeamManager
       game_team.game_id == game.game_id && game.team_id != game_team.team_id
       end
     end
+
+  def most_tackles(game_ids)
+    season_games = find_season_by_game_ids(game_ids)
+    total_tackles_by_team = total_tackles(season_games)
+    team_id_with_most_tackles = team_id_most_tackles(total_tackles_by_team)
+    team_name_most_tackles(team_id_with_most_tackles)
   end
+
+  def total_tackles(season_games)
+    total_tackles_by_team = {}
+      season_games.each do |game|
+      if total_tackles_by_team[game.team_id]
+        total_tackles_by_team[game.team_id] += (game.tackles).to_i
+      else
+        total_tackles_by_team[game.team_id] = (game.tackles).to_i
+      end
+    end
+    total_tackles_by_team
+  end
+
+  def team_id_most_tackles(total_tackles_by_team)
+    most_tackles = total_tackles_by_team.values.max
+    team_with_most_tackles = total_tackles_by_team.key(most_tackles)
+  end
+
+  def team_name_most_tackles(team_id_with_most_tackles)
+    @tracker.team_info(team_id_with_most_tackles)["team_name"]
+  end
+end

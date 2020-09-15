@@ -244,4 +244,37 @@ class GameTeamManagerTest < Minitest::Test
 
     assert_equal game2, @game_team_manager.opponent(game1)
   end
+
+  def test_total_tackles
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+
+    assert_equal 30, @game_team_manager.total_tackles(season_games).length
+  end
+
+  def test_team_id_most_tackles
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    total_tackles_by_team = @game_team_manager.total_tackles(season_games)
+
+    assert_equal "2", @game_team_manager.team_id_most_tackles(total_tackles_by_team)
+  end
+
+  def test_team_name_most_tackles
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    total_tackles_by_team = @game_team_manager.total_tackles(season_games)
+    team_id_with_most_tackles = @game_team_manager.team_id_most_tackles(total_tackles_by_team)
+
+    assert_equal "Seattle Sounders FC", @game_team_manager.team_name_most_tackles(team_id_with_most_tackles)
+  end
+
+  def test_most_tackles
+    game_id_array = @game_manager.find_game_ids_of_season("20142015")
+    season_games = @game_team_manager.find_season_by_game_ids(game_id_array)
+    total_tackles_by_team = @game_team_manager.total_tackles(season_games)
+    team_id_with_most_tackles = @game_team_manager.team_id_most_tackles(total_tackles_by_team)
+
+    assert_equal "Seattle Sounders FC", @game_team_manager.team_name_most_tackles(team_id_with_most_tackles)
+  end
 end
