@@ -1,9 +1,11 @@
 require 'csv'
 require_relative './game_team'
 require_relative './groupable'
+require_relative './findable'
 
 class GameTeamManager
   include Groupable
+  include Findable
   attr_reader :game_teams, :tracker
 
   def initialize(data, tracker)
@@ -33,7 +35,7 @@ class GameTeamManager
   end
 
   def highest_scoring_visitor
-    away_games = find_all_home_or_away_games("away")
+    away_games = find_all_home_or_away_games(@game_teams, "away")
     team_id = group_by(away_games, :team_id, :goals).max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
@@ -41,7 +43,7 @@ class GameTeamManager
   end
 
   def highest_scoring_home_team
-    home_games = find_all_home_or_away_games("home")
+    home_games = find_all_home_or_away_games(@game_teams, "home")
     team_id = group_by(home_games, :team_id, :goals).max_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
@@ -49,7 +51,7 @@ class GameTeamManager
   end
 
   def lowest_scoring_visitor
-    away_games = find_all_home_or_away_games("away")
+    away_games = find_all_home_or_away_games(@game_teams, "away")
     team_id = group_by(away_games, :team_id, :goals).min_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
@@ -57,23 +59,11 @@ class GameTeamManager
   end
 
   def lowest_scoring_home_team
-    home_games = find_all_home_or_away_games("home")
+    home_games = find_all_home_or_away_games(@game_teams, "home")
     team_id = group_by(home_games, :team_id, :goals).min_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
     end.first
     @tracker.team_manager.team_info(team_id)["team_name"]
-  end
-
-  def find_all_home_or_away_games(hoa)
-    @game_teams.find_all do |game_team|
-      game_team.hoa == hoa
-    end
-  end
-
-  def find_games_by_team(team_id)
-    @game_teams.find_all do |game_team|
-      game_team.team_id == team_id
-    end
   end
 
   def winningest_coach(game_ids)
