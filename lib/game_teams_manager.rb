@@ -158,8 +158,8 @@ class GameTeamManager
   def most_tackles(game_ids)
     season_games = find_season_by_game_ids(game_ids)
     total_tackles_by_team = total_tackles(season_games)
-    team_id_with_most_tackles = team_id_most_tackles(total_tackles_by_team)
-    team_name_most_tackles(team_id_with_most_tackles)
+    team_id_with_most_tackles = team_id_most_or_fewest_tackles(total_tackles_by_team).first
+    @tracker.team_manager.team_info(team_id_with_most_tackles)["team_name"]
   end
 
   def total_tackles(season_games)
@@ -174,28 +174,15 @@ class GameTeamManager
     total_tackles_by_team
   end
 
-  def team_id_most_tackles(total_tackles_by_team)
-    most_tackles = total_tackles_by_team.values.max
-    team_with_most_tackles = total_tackles_by_team.key(most_tackles)
-  end
-
-  def team_id_fewest_tackles(total_tackles_by_team)
-    fewest_tackles = total_tackles_by_team.values.min
-    team_with_fewest_tackles = total_tackles_by_team.key(fewest_tackles)
-  end
-
-  def team_name_most_tackles(team_id_with_most_tackles)
-    @tracker.team_info(team_id_with_most_tackles)["team_name"]
-  end
-
-  def team_name_fewest_tackles(team_id_with_fewest_tackles)
-    @tracker.team_info(team_id_with_fewest_tackles)["team_name"]
+  def team_id_most_or_fewest_tackles(total_tackles_by_team)
+    max_and_min_ratios = total_tackles_by_team.values.minmax
+    [total_tackles_by_team.key(max_and_min_ratios.last), total_tackles_by_team.key(max_and_min_ratios.first)]
   end
 
   def fewest_tackles(game_ids)
     season_games = find_season_by_game_ids(game_ids)
     total_tackles_by_team = total_tackles(season_games)
-    team_id_with_fewest_tackles = team_id_fewest_tackles(total_tackles_by_team)
-    team_name_fewest_tackles(team_id_with_fewest_tackles)
+    team_id_with_fewest_tackles = team_id_most_or_fewest_tackles(total_tackles_by_team).last
+    @tracker.team_manager.team_info(team_id_with_fewest_tackles)["team_name"]
   end
 end
