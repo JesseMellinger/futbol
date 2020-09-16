@@ -4,8 +4,7 @@ require_relative './groupable'
 require_relative './findable'
 
 class GameTeamManager
-  include Groupable
-  include Findable
+  include Groupable, Findable
   attr_reader :game_teams, :tracker
 
   def initialize(data, tracker)
@@ -20,49 +19,43 @@ class GameTeamManager
     end
   end
 
-  def best_offense
-    team_id = group_by(@game_teams, :team_id, :goals).max_by do |team_id, goals_in_game|
+  def get_best_and_worst_offense(data)
+    team_ids = group_by(data, :team_id, :goals).minmax_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    end
+  end
+
+  def best_offense
+    team_id = get_best_and_worst_offense(@game_teams)[1][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def worst_offense
-    team_id = group_by(@game_teams, :team_id, :goals).min_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(@game_teams)[0][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def highest_scoring_visitor
     away_games = find_all_home_or_away_games(@game_teams, "away")
-    team_id = group_by(away_games, :team_id, :goals).max_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(away_games)[1][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def highest_scoring_home_team
     home_games = find_all_home_or_away_games(@game_teams, "home")
-    team_id = group_by(home_games, :team_id, :goals).max_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(home_games)[1][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def lowest_scoring_visitor
     away_games = find_all_home_or_away_games(@game_teams, "away")
-    team_id = group_by(away_games, :team_id, :goals).min_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(away_games)[0][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def lowest_scoring_home_team
     home_games = find_all_home_or_away_games(@game_teams, "home")
-    team_id = group_by(home_games, :team_id, :goals).min_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(home_games)[0][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
@@ -141,21 +134,10 @@ class GameTeamManager
 
   def most_tackles(game_ids)
     season_games = find_season_by_game_ids(@game_teams, game_ids)
-    total_tackles_by_team = total_tackles(season_games)
+    total_tackles_by_team = group_by(season_games, :team_id, :tackles)
+    total_tackles_by_team = total_tackles_by_team.transform_values! {|tackle_arr| tackle_arr.map(&:to_i).sum}
     team_id_with_most_tackles = team_id_most_or_fewest_tackles(total_tackles_by_team).first
     @tracker.team_manager.team_info(team_id_with_most_tackles)["team_name"]
-  end
-
-  def total_tackles(season_games)
-    total_tackles_by_team = {}
-      season_games.each do |game|
-      if total_tackles_by_team[game.team_id]
-        total_tackles_by_team[game.team_id] += (game.tackles).to_i
-      else
-        total_tackles_by_team[game.team_id] = (game.tackles).to_i
-      end
-    end
-    total_tackles_by_team
   end
 
   def team_id_most_or_fewest_tackles(total_tackles_by_team)
@@ -165,7 +147,8 @@ class GameTeamManager
 
   def fewest_tackles(game_ids)
     season_games = find_season_by_game_ids(@game_teams, game_ids)
-    total_tackles_by_team = total_tackles(season_games)
+    total_tackles_by_team = group_by(season_games, :team_id, :tackles)
+    total_tackles_by_team = total_tackles_by_team.transform_values! {|tackle_arr| tackle_arr.map(&:to_i).sum}
     team_id_with_fewest_tackles = team_id_most_or_fewest_tackles(total_tackles_by_team).last
     @tracker.team_manager.team_info(team_id_with_fewest_tackles)["team_name"]
   end
