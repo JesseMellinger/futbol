@@ -1,4 +1,7 @@
+require_relative './findable'
+
 class Team
+  include Findable
   attr_reader :team_id, :franchise_id, :team_name, :abbreviation, :link,
               :manager
 
@@ -52,7 +55,7 @@ class Team
   end
 
   def team_games
-    @manager.tracker.game_team_manager.find_games_by_team(team_id)
+    find_games_by_team(@manager.tracker.game_team_manager.game_teams, team_id)
   end
 
   def games
