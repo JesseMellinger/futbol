@@ -13,4 +13,4 @@ Design Structure:
 
 ![Design Structure][logo]
 
-[logo]: https://user-images.githubusercontent.com/29828129/93120873-3e05c100-f681-11ea-9421-f44889fb3ec7.jpg "Design Structure"
+[logo]: https://user-images.githubusercontent.com/56360157/93395257-ce373800-f832-11ea-8016-4a56e5e9af1f.jpeg "Design Structure"
