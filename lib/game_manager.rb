@@ -37,13 +37,13 @@ class GameManager
   end
 
   def highest_total_score
-    scores = @games.map do |game|
+    @games.map do |game|
       game.home_goals.to_i + game.away_goals.to_i
     end.max
   end
 
   def lowest_total_score
-    scores = @games.map do |game|
+    @games.map do |game|
       game.home_goals.to_i + game.away_goals.to_i
     end.sort![0]
   end
@@ -94,17 +94,17 @@ class GameManager
   end
 
   def total_goals_by_season
-   hash = Hash[self.season_keys.collect {|item| [item, 0]}]
-   hash.each do |season, games|
-     @games.each do |game|
-       if game.season.include?(season)
-         hash[season] += game.away_goals.to_i + game.home_goals.to_i
-       end
-     end
-   end
- end
+    hash = Hash[self.season_keys.collect {|item| [item, 0]}]
+    hash.each do |season, games|
+      @games.each do |game|
+        if game.season.include?(season)
+          hash[season] += game.away_goals.to_i + game.home_goals.to_i
+        end
+      end
+    end
+  end
 
- def average_goals_by_season
+  def average_goals_by_season
     goals_hash = Hash.new(0)
     total_goals_by_season.each do |season1, goals|
       count_of_games_by_season.each do |season2, games|
@@ -115,5 +115,4 @@ class GameManager
     end
     goals_hash
   end
-
 end

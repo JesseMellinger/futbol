@@ -111,7 +111,7 @@ class GameTeamManager
   end
 
   def find_shots_to_goal_ratio(total_goals, total_shots)
-    shots_to_goal_ratio = total_goals.merge!(total_shots) {|key, value1, value2|
+    total_goals.merge!(total_shots) {|key, value1, value2|
     (value1.map(&:to_f).sum / value2.map(&:to_f).sum).round(6)}
   end
 
@@ -123,8 +123,8 @@ class GameTeamManager
   def opponent(game_team)
     game_teams.find do |game|
       game_team.game_id == game.game_id && game.team_id != game_team.team_id
-      end
     end
+  end
 
   def most_tackles(game_ids)
     season_games = find_season_by_game_ids(@game_teams, game_ids)
