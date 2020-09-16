@@ -17,4 +17,11 @@ module Findable
       game_ids.include?(game.game_id)
     end
   end
+
+  def find_min_max_values(data)
+    team_ids = group_by(data, :team_id, :goals).minmax_by do |team_id, goals_in_game|
+      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
+    end
+  end
+  
 end
