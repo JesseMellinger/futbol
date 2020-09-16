@@ -19,49 +19,43 @@ class GameTeamManager
     end
   end
 
-  def best_offense
-    team_id = group_by(@game_teams, :team_id, :goals).max_by do |team_id, goals_in_game|
+  def get_best_and_worst_offense(data)
+    team_ids = group_by(data, :team_id, :goals).minmax_by do |team_id, goals_in_game|
       goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    end
+  end
+
+  def best_offense
+    team_id = get_best_and_worst_offense(@game_teams)[1][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def worst_offense
-    team_id = group_by(@game_teams, :team_id, :goals).min_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(@game_teams)[0][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def highest_scoring_visitor
     away_games = find_all_home_or_away_games(@game_teams, "away")
-    team_id = group_by(away_games, :team_id, :goals).max_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(away_games)[1][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def highest_scoring_home_team
     home_games = find_all_home_or_away_games(@game_teams, "home")
-    team_id = group_by(home_games, :team_id, :goals).max_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(home_games)[1][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def lowest_scoring_visitor
     away_games = find_all_home_or_away_games(@game_teams, "away")
-    team_id = group_by(away_games, :team_id, :goals).min_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(away_games)[0][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
   def lowest_scoring_home_team
     home_games = find_all_home_or_away_games(@game_teams, "home")
-    team_id = group_by(home_games, :team_id, :goals).min_by do |team_id, goals_in_game|
-      goals_in_game.map(&:to_i).sum.to_f / (goals_in_game.length)
-    end.first
+    team_id = get_best_and_worst_offense(home_games)[0][0]
     @tracker.team_manager.team_info(team_id)["team_name"]
   end
 
